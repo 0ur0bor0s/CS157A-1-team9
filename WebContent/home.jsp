@@ -6,10 +6,10 @@
   </head>
   <body>
 	<div class="navbar">
-      <a class="current" href="#home">Home</a>
-      <a href="#buy">Buy</a>
-      <a href="#sell">Sell</a>
-      <a href="#events">Events</a>
+      <a class="current" href="home.jsp">Home</a>
+      <a href="buy.jsp">Buy</a>
+      <a href="sell.jsp">Sell</a>
+      <a href="events.jsp">Events</a>
       <div class="search-bar">
         <input type="text" placeholder="Search artists, events, etc . .">
         <button type="submit"><i class="fa fa-search"></i></button>
