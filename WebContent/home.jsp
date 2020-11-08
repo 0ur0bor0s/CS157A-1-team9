@@ -1,5 +1,5 @@
-<%@ page import="java.sql.*"%>
-<link href="style/home.css" rel="stylesheet" type="text/css"> 
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link href="css/home.css" rel="stylesheet" type="text/css"> 
 <html>
   <head>
 	<title>CheapTix Home Page</title>
