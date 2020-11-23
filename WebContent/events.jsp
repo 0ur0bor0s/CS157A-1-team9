@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="src.RetrieveEvents, src.EventBean, java.util.ArrayList" contentType="text/html;charset=UTF-8" language="java" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
 <html>
 	<head>
@@ -15,28 +15,24 @@
 	        <button type="submit"><i class="fa fa-search"></i></button>
 	       </div>
 	     </div>
-	<div class="card-group">
-    <div class="event-card">
-    	<div class="date">March 13, 2021</div>
-    	<div class="time">7:00pm</div>
-    	<div class="performer-name">Green Day</div>
-    	<div class="event-name">Green Day Concert</div>
-    	<div class="location">Pasay, NCR, PH</div>
-  	</div>
-  	<div class="event-card">
-    	<div class="date">April 23, 2021</div>
-    	<div class="time">10:00pm</div>
-    	<div class="performer-name">Billie Eilish</div>
-    	<div class="event-name">Music Festival</div>
-    	<div class="location">San Jose, CA, USA</div>
-  	</div>
-  	<div class="event-card">
-    	<div class="date">November 1, 2021</div>
-    	<div class="time">8:00pm</div>
-    	<div class="performer-name">San Jose Sharks</div>
-    	<div class="event-name">San Jose Sharks game</div>
-    	<div class="location">San Jose, CA, USA</div>
-  	</div>
-  </div>
+	  	<%
+		  	// Retrive events
+		  	RetrieveEvents revents = new RetrieveEvents();
+		  	ArrayList<EventBean> events = revents.retrieve(10);
+			out.println("<div class=\"card-group\">");
+		  	for (EventBean e : events) {
+				out.println("<div class=\"event-card\">");
+		  		out.println("<div class=\"date\">" + e.getDatetime() + "</div>");
+		  		out.println("<div class=\"time\">" + e.getDatetime() + "</div>");
+		  		ArrayList<String> performers = e.getPerformers();
+		  		for (String performer : performers) {
+		  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
+		  		}
+		  		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
+		  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
+		  		out.println("</div>");
+		  	}
+			out.println("</div>");
+  	%>
 	</body>
 </html>

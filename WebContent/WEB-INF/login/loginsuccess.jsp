@@ -31,6 +31,7 @@
 			boolean status = log.validate(loginBean);
 			if (status) {
 				System.out.println("Successful login");
+				
 				try {
 					response.sendRedirect("home.jsp");
 					return;

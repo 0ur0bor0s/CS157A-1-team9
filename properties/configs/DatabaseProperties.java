@@ -3,6 +3,11 @@ package configs;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Class used to manage config file settings
+ * @author ben
+ *
+ */
 public class DatabaseProperties {
 	public String username = "";
 	public String password = "";

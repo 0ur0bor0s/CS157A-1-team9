@@ -3,6 +3,11 @@ import java.sql.*;
 
 import configs.DatabaseProperties;
 
+/**
+ * Fetch usernames
+ * @author ben
+ *
+ */
 public class FectchCheapTixRecords {
 
 	public static void main(String[] args) {
