@@ -1,4 +1,16 @@
 /*
+=== Body ===================================================================
+*/
+body {
+	/*background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);*/
+	background: -webkit-linear-gradient(70deg, #806CA5  30%, rgba(0,0,0,0) 30%), -webkit-linear-gradient(30deg, #6E276C 60%, #431D5A 60%);
+    background: -o-linear-gradient(70deg, #806CA5  30%, rgba(0,0,0,0) 30%), -o-linear-gradient(30deg, #6E276C 60%, #431D5A 60%);
+    background: -moz-linear-gradient(70deg, #806CA5  30%, rgba(0,0,0,0) 30%), -moz-linear-gradient(30deg, #6E276C 60%, #431D5A 60%);
+    background: linear-gradient(70deg, #806CA5  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #6E276C 60%, #431D5A 60%);
+}
+
+
+/*
 === NAV BAR ================================================================
 */
 
@@ -23,7 +35,7 @@
 }
 
 .navbar a.current {
-  background-color: #ff970f;
+  background-color: #8F4FA0;
   color: white;
 }
 
@@ -58,7 +70,7 @@
 	border-radius: 20px;
 	margin: 50px auto;
 	border: 3px black;
-	background-color: #ff970f;
+	background-color: #8F4FA0;
 	width: 50%;
 	padding: 10px 10px;
 }
@@ -83,29 +95,41 @@
 
 .card-group {
 	border-radius: 20px;
-	background-color: #e9e9e9;
+	background-color: #D8A3DD;
 	width: 80%;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-bottom: 30px;
 	padding-top: 10px;
 	margin: 50px auto;
+	overflow: auto;
 }
 
 .event-card {
 	border-radius: 20px;
 	padding: 10px 10px;
-	background-color: rgba(255, 151, 15, 0.3);
+	background: linear-gradient(110deg, #BC76BA 60%, #D8A3DD 60%);
+	/*background-color: rgba(255, 151, 15, 0.3);*/
 	margin-top: 20px;
 }
 
 .event-card:hover {
-	background-color: #ff970f;
+	background: linear-gradient(110deg, #431D5A 60%, #8E4175 60%);
+	/* background-color: #ff970f;*/
 	color: white;
 }
 
 .event-card .date {
 	font-weight: bold;
+}
+
+.event-card button {
+	background-color: #8F4FA0;
+	border: none;
+	padding: 15px 32px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
 }
 
 

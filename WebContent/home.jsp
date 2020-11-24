@@ -33,24 +33,11 @@
   	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
   		}
   		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
-  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
+  		out.println("<div class=\"location\">" + e.getAddress() + " " + e.getCity() + ", " + e.getDistrict() + " " + e.getZipcode() + "</div>");
+  		out.println("<button>Purchase</button>");
   		out.println("</div>");
   	}
 	out.println("</div>");
-	
-	/*
-	System.out.println("<div class=\"card-group\"><div class=\"event-card\">");
-  	for (EventBean e : events) {
-
-  		System.out.println("<div class=\"date\">" + e.getDatetime() + "</div>");
-  		System.out.println("<div class=\"time\">" + e.getDatetime() + "</div>");
-  		for (String performer : e.getPerformers()) {
-  			System.out.println("<div class=\"performer-name\">" + performer + "</div>");
-  		}
-  		System.out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
-  		System.out.println("<div class=\"location\">" + e.getAddress() + "</div>");
-  	}
-  	System.out.println("</div></div>");*/
   %>
 
   </body>
