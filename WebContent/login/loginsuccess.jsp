@@ -32,7 +32,7 @@
 			if (status) {
 				System.out.println("Successful login");
 				try {
-					response.sendRedirect("home.jsp");
+					response.sendRedirect("../home.jsp");
 					return;
 				} catch (Exception e) {
 					System.out.println(e);

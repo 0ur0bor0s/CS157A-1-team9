@@ -1,7 +1,6 @@
 package src;
 
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,20 +9,22 @@ import java.util.ArrayList;
 import configs.DatabaseProperties;
 
 /**
- * Class to retrieve various events
+ * Object to retrieve ticket listings
  * @author ben
  *
  */
-public class RetrieveEvents {
+public class RetrieveTickets {
 	
 	/**
 	 * Retrieve a specified number of event data from the database
 	 * @return List of event data
+	 * @throws ClassNotFoundException 
 	 */
-	public ArrayList<EventBean> retrieve(int querynum) {
+	/*
+	public ArrayList<TicketBean> retrieveListings(int querynum) {
 
 		// List for storing event data
-		ArrayList<EventBean> eventList = new ArrayList<EventBean>();
+		ArrayList<TicketBean> ticketList = new ArrayList<TicketBean>();
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -45,7 +46,7 @@ public class RetrieveEvents {
 			
 			// Iterate through each entry
 			while (eqr.next()) {
-				EventBean event = new EventBean();
+				TicketBean event = new TicketBean();
 				
 				// Data in Event table
 				event.setEventName(eqr.getString("Events.name"));
@@ -58,7 +59,7 @@ public class RetrieveEvents {
 				event.setDistrict(eqr.getString("district"));
 				event.setZipcode(eqr.getInt("zipCode"));
 								
-				eventList.add(event);
+				ticketList.add(event);
 			}
 			
 			eventquery.close();
@@ -66,6 +67,6 @@ public class RetrieveEvents {
 			System.out.println(e);
 	  }
 		
-	return eventList;
-	}
+	return ticketList;
+	}*/
 }
