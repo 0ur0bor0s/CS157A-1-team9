@@ -23,8 +23,8 @@
 			out.println("<div class=\"card-group\">");
 		  	for (EventBean e : events) {
 				out.println("<div class=\"event-card\">");
-		  		out.println("<div class=\"date\">" + e.getDatetime() + "</div>");
-		  		out.println("<div class=\"time\">" + e.getDatetime() + "</div>");
+		  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");
+		  		out.println("<div class=\"time\">" + e.getDatetime().getTime() + "</div>");
 		  		ArrayList<String> performers = e.getPerformers();
 		  		for (String performer : performers) {
 		  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
