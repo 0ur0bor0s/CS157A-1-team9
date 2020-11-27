@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import configs.DatabaseProperties;
 
@@ -33,13 +34,13 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, zipCode, Performers.name " + 
-																"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																"			 INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																"			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-																"            INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
-																"            INNER JOIN Performers ON Performs.performId = Performers.performId " + 
-																"LIMIT ?");
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, Performers.name , performerType " + 
+				"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+				"			 INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+				"			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
+				"            INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
+				"            INNER JOIN Performers ON Performs.performId = Performers.performId " + 
+				"LIMIT ?");
 			eventquery.setInt(1, querynum);
 			ResultSet eqr = eventquery.executeQuery();
 			
@@ -49,13 +50,19 @@ public class RetrieveEvents {
 				
 				// Data in Event table
 				event.setEventName(eqr.getString("Events.name"));
-				event.setDatetime(eqr.getDate("time"));
+				event.setVenueName(eqr.getString("venueName"));
+				
+				TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+				
+				event.setDatetime(eqr.getTimestamp("time"));
 				event.setAddress(eqr.getString("address"));
 				ArrayList<String> performList = new ArrayList<String>();
 				performList.add(eqr.getString("Performers.name"));
+				event.setPerformerType(PerformerType.valueOf(eqr.getString("performerType")));
 				event.setPerformers(performList);
 				event.setCity(eqr.getString("city"));
 				event.setDistrict(eqr.getString("district"));
+				event.setCountry(eqr.getString("country"));
 				event.setZipcode(eqr.getInt("zipCode"));
 								
 				eventList.add(event);
@@ -63,7 +70,7 @@ public class RetrieveEvents {
 			
 			eventquery.close();
 		} catch (Exception e) {
-			System.out.println(e);
+			System.err.println(e);
 	  }
 		
 	return eventList;

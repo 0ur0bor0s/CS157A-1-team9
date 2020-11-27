@@ -38,7 +38,7 @@
 	      <a href="profile.jsp">Profile</a>
 	      <div class="search-bar">
 	        <input type="text" placeholder="Search artists, events, etc . .">
-	        <button type="submit"><i class="fa fa-search"></i></button>
+        	<button type="submit"><i class="fas fa-search"></i>Search</button>
 	       </div>
 	     </div>
 	     <h1>Enter the tickets you want to sell here!</h1>

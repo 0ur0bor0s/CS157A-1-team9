@@ -13,15 +13,22 @@
 	      <a href="profile.jsp">Profile</a>
 	      <div class="search-bar">
 	        <input type="text" placeholder="Search artists, events, etc . .">
-	        <button type="submit"><i class="fa fa-search"></i></button>
+        	<button type="submit"><i class="fas fa-search"></i>Search</button>
 	       </div>
 	     </div>
 	  	<%
-		  	// Retrive events
+			// Formatter for dates
+			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	  	
+		  	// Retrieve events
 		  	RetrieveEvents revents = new RetrieveEvents();
-		  	ArrayList<EventBean> events = revents.retrieve(10);
+		  	ArrayList<EventBean> events = revents.retrieve(20);
 			out.println("<div class=\"card-group\">");
 		  	for (EventBean e : events) {
+		  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
+		  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 
+		  					"&ptype=" + e.getPerformerType() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
+		  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
 				out.println("<div class=\"event-card\">");
 		  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");
 		  		out.println("<div class=\"time\">" + e.getDatetime().getTime() + "</div>");
@@ -32,8 +39,9 @@
 		  		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
 		  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
 		  		out.println("</div>");
+		  		out.println("</a>");
 		  	}
 			out.println("</div>");
-  	%>
+  		%>
 	</body>
 </html>

@@ -20,6 +20,19 @@ public class TicketBean extends EventBean implements Serializable {
 	private boolean isPurchased = false;
 	private int sellerId;
 	
+	public TicketBean(EventBean eb) {
+		super.setEventName(eb.getEventName());
+		super.setVenueName(eb.getVenueName());
+		super.setDatetime(eb.getDatetime());
+		super.setPerformers(eb.getPerformers());
+		super.setPerformerType(eb.getPerformerType());
+		super.setAddress(eb.getAddress());
+		super.setCity(eb.getCity());
+		super.setDistrict(eb.getDistrict());
+		super.setZipcode(eb.getZipcode());
+		super.setCountry(eb.getCountry());
+	}
+	
 	public void setNumberTickets(int numberTickets) {
 		this.numberTickets = numberTickets;
 	}

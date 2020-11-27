@@ -20,7 +20,8 @@ public class InsertTicket {
 	 * Insert ticket into database
 	 * @param tb
 	 */
-	public void insert(TicketBean tb) {
+	public boolean insert(TicketBean tb) {
+		boolean status = false;
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -34,13 +35,13 @@ public class InsertTicket {
 			
 			// Search if event data already exists in database and if it doesn't then add it
 			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name " + 
-																"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																"			INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																"			INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-																"			INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
-																"			INNER JOIN Performers ON Performs.performId = Performers.performId " + 
-																"WHERE Events.name = ? AND time = ? AND venueName = ? " + 
-																"AND address = ? AND city = ? AND district = ? AND zipCode = ?");			
+				"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+				"			INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+				"			INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
+				"			INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
+				"			INNER JOIN Performers ON Performs.performId = Performers.performId " + 
+				"WHERE Events.name = ? AND time = ? AND venueName = ? " + 
+				"AND address = ? AND city = ? AND district = ? AND zipCode = ?");			
 			eventquery.setNString(1, tb.getEventName());
 			eventquery.setNString(2, dateFormat.format(tb.getDatetime()));
 			eventquery.setNString(3, tb.getVenueName());
@@ -54,12 +55,12 @@ public class InsertTicket {
 			if (!eventResult.isBeforeFirst()) {
 				// Insert city
 				PreparedStatement insertCity = con.prepareStatement("INSERT INTO Cities(city, district, country) " + 
-																	"SELECT ?, ?, ? " + 
-																	"FROM dual " + 
-																	"WHERE NOT EXISTS ( " + 
-																	"SELECT * " + 
-																	"FROM Cities " + 
-																	"WHERE city = ? AND district = ? AND country = ?)");
+					"SELECT ?, ?, ? " + 
+					"FROM dual " + 
+					"WHERE NOT EXISTS ( " + 
+					"SELECT * " + 
+					"FROM Cities " + 
+					"WHERE city = ? AND district = ? AND country = ?)");
 				insertCity.setNString(1, tb.getCity());
 				insertCity.setNString(4, tb.getCity());
 				insertCity.setNString(2, tb.getDistrict());
@@ -70,12 +71,12 @@ public class InsertTicket {
 				
 				// Insert address
 				PreparedStatement insertAddress = con.prepareStatement("INSERT INTO Addresses(address, cityId, zipCode) " + 
-																		"SELECT ?, (SELECT cityId FROM Cities WHERE city = ? AND district = ? AND country = ?), ? " + 
-																		"FROM dual " + 
-																		"WHERE NOT EXISTS ( " + 
-																		"SELECT * " + 
-																		"FROM Addresses WHERE address = ? AND cityId = (SELECT cityId FROM Cities " + 
-																		"												WHERE city = ? AND district = ? AND country = ?) AND zipCode = ?)");
+					"SELECT ?, (SELECT cityId FROM Cities WHERE city = ? AND district = ? AND country = ?), ? " + 
+					"FROM dual " + 
+					"WHERE NOT EXISTS ( " + 
+					"SELECT * " + 
+					"FROM Addresses WHERE address = ? AND cityId = (SELECT cityId FROM Cities " + 
+					"												WHERE city = ? AND district = ? AND country = ?) AND zipCode = ?)");
 				insertAddress.setNString(1, tb.getAddress());
 				insertAddress.setNString(2, tb.getCity());
 				insertAddress.setNString(3, tb.getDistrict());
@@ -90,15 +91,15 @@ public class InsertTicket {
 				
 				// Insert venue
 				PreparedStatement insertVenue = con.prepareStatement("INSERT INTO Venues(venueName, addressId) " + 
-																	 "SELECT ?, (SELECT addressId FROM Addresses " + 
-																	 "			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-																	 "           WHERE address = ? AND city = ? AND district = ? AND country = ?) " + 
-																	 "FROM dual " + 
-																	 "WHERE NOT EXISTS ( " + 
-																	 "SELECT * " + 
-																	 "FROM Venues WHERE venueName = ? AND addressId = (SELECT addressId FROM Addresses " + 
-																	 "						  INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-																	 "                        WHERE address = ? AND city = ? AND district = ? AND country = ?))");
+					 "SELECT ?, (SELECT addressId FROM Addresses " + 
+					 "			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
+					 "           WHERE address = ? AND city = ? AND district = ? AND country = ?) " + 
+					 "FROM dual " + 
+					 "WHERE NOT EXISTS ( " + 
+					 "SELECT * " + 
+					 "FROM Venues WHERE venueName = ? AND addressId = (SELECT addressId FROM Addresses " + 
+					 "						  INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
+					 "                        WHERE address = ? AND city = ? AND district = ? AND country = ?))");
 				insertVenue.setNString(1, tb.getVenueName());
 				insertVenue.setNString(2, tb.getAddress());
 				insertVenue.setNString(3, tb.getCity());
@@ -113,21 +114,12 @@ public class InsertTicket {
 				
 				// Update address with new venueId
 				PreparedStatement updateVenueId = con.prepareStatement("UPDATE Addresses, Venues " + 
-																	   "SET Addresses.venueId = Venues.venueId " + 
-																	   "WHERE Addresses.addressId = Venues.venueId");
-				
-				
+				   "SET Addresses.venueId = Venues.venueId " + 
+				   "WHERE Addresses.addressId = Venues.venueId");
 				updateVenueId.execute();
 				
 				
 				// Insert event
-				/*
-				PreparedStatement insertEvent = con.prepareStatement("INSERT INTO Events(venueId, name, time) " + 
-																	 "Values((SELECT Venues.venueId FROM Venues " + 
-																	 "					INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																	 "                  WHERE venueName = ? AND address = ? " + 
-																	 "				    AND zipCode = ?), ?, ?)");*/
-				
 				PreparedStatement insertEvent = con.prepareStatement("INSERT INTO Events(venueId, name, time)\n" + 
 						"SELECT (SELECT Venues.venueId FROM Venues\n" + 
 						"							INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
@@ -160,11 +152,11 @@ public class InsertTicket {
 				for (String perfName : tb.getPerformers()) {
 					// Insert performer
 					PreparedStatement insertPerformer = con.prepareStatement("INSERT INTO Performers(name, performerType) " + 
-																			"SELECT ?, ? " + 
-																			"FROM dual " + 
-																			"WHERE NOT EXISTS ( " + 
-																			"SELECT * " + 
-																			"FROM Performers WHERE name = ? AND performerType = ?)");
+						"SELECT ?, ? " + 
+						"FROM dual " + 
+						"WHERE NOT EXISTS ( " + 
+						"SELECT * " + 
+						"FROM Performers WHERE name = ? AND performerType = ?)");
 					insertPerformer.setNString(1, perfName);
 					insertPerformer.setNString(2, tb.getPerformerType().name());
 					insertPerformer.setNString(3, perfName);
@@ -174,18 +166,18 @@ public class InsertTicket {
 					
 					// Insert performance
 					PreparedStatement insertPerformance = con.prepareStatement("INSERT INTO Performs(performId, eventId)\n" + 
-																				"SELECT (SELECT performId FROM Performers WHERE name = ? AND performerType = ?), " + 
-																				"	   (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																				"							INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																				"							WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
-																				"FROM dual " + 
-																				"WHERE NOT EXISTS ( " + 
-																				"SELECT * " + 
-																				"FROM Performs WHERE performId = (SELECT performId FROM Performers WHERE name = ? AND performerType = ?) " + 
-																				"AND eventId = (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																				"			   INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																				"			   WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
-																				")");
+						"SELECT (SELECT performId FROM Performers WHERE name = ? AND performerType = ?), " + 
+						"	   (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+						"							INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+						"							WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
+						"FROM dual " + 
+						"WHERE NOT EXISTS ( " + 
+						"SELECT * " + 
+						"FROM Performs WHERE performId = (SELECT performId FROM Performers WHERE name = ? AND performerType = ?) " + 
+						"AND eventId = (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+						"			   INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+						"			   WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
+						")");
 					insertPerformance.setNString(1, perfName);
 					insertPerformance.setNString(2, tb.getPerformerType().name());
 					insertPerformance.setNString(3, tb.getEventName());
@@ -213,10 +205,10 @@ public class InsertTicket {
 			for (int i=0; i<tb.getNumberTickets(); i++) {
 				// Add ticket to Tickets table
 				PreparedStatement insertTicket = con.prepareStatement("INSERT INTO Tickets(price, eventId) " + 
-																	  "VALUES (?, (SELECT eventId FROM Events " + 
-																	  "				INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																	  "             INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																	  "             WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ?))");
+				  "VALUES (?, (SELECT eventId FROM Events " + 
+				  "				INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+				  "             INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+				  "             WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ?))");
 				insertTicket.setFloat(1, tb.getPrice());
 				insertTicket.setNString(2,  tb.getEventName());
 				insertTicket.setNString(3, dateFormat.format(tb.getDatetime()));
@@ -227,8 +219,8 @@ public class InsertTicket {
 				
 				// Insert ticket into listing
 				PreparedStatement insertList = con.prepareStatement("INSERT INTO Lists(userId, ticketId, timestamp) " + 
-																	"VALUES (?, (SELECT ticketId " + 
-																	"			FROM Tickets ORDER BY ticketId DESC LIMIT 1), ?)");
+					"VALUES (?, (SELECT ticketId " + 
+					"			FROM Tickets ORDER BY ticketId DESC LIMIT 1), ?)");
 				insertList.setInt(1, tb.getSellerId());
 				java.util.Date now = new java.util.Date();
 				java.sql.Timestamp timestamp = new java.sql.Timestamp(now.getTime());
@@ -236,12 +228,13 @@ public class InsertTicket {
 				insertList.execute();
 				
 				System.out.println("Ticket was successfully listed.");
+				status = true;
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 			e.printStackTrace();
 		}
 		
-		return;
+		return status;
 	}
 }

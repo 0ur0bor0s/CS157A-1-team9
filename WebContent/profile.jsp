@@ -2,7 +2,7 @@
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
 <html>
 	<head>
-		<title>Events</title>
+		<title>Profile</title>
 	</head>
 	<body>
 		<div class="navbar">
@@ -13,7 +13,7 @@
 	      <a class="current" href="profile.jsp">Profile</a>
 	      <div class="search-bar">
 	        <input type="text" placeholder="Search artists, events, etc . .">
-	        <button type="submit"><i class="fa fa-search"></i></button>
+        	<button type="submit"><i class="fas fa-search"></i>Search</button>
 	       </div>
 	     </div>
 	</body>
