@@ -27,6 +27,7 @@
         	<button type="submit"><i class="fas fa-search"></i>Search</button>
 	       </div>
 	     </div>
+	     <h1>Hello <%= (String)session.getAttribute("username") %></h1>
 	     <button type="button" onclick="logout()">Log out</button>
 	</body>
 </html>

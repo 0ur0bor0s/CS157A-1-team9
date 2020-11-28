@@ -219,9 +219,9 @@ public class InsertTicket {
 				
 				// Insert ticket into listing
 				PreparedStatement insertList = con.prepareStatement("INSERT INTO Lists(userId, ticketId, timestamp) " + 
-					"VALUES (?, (SELECT ticketId " + 
+					"VALUES ((SELECT userId FROM Users Where username = ?), (SELECT ticketId " + 
 					"			FROM Tickets ORDER BY ticketId DESC LIMIT 1), ?)");
-				insertList.setInt(1, tb.getSellerId());
+				insertList.setNString(1, tb.getSellerUsername());
 				java.util.Date now = new java.util.Date();
 				java.sql.Timestamp timestamp = new java.sql.Timestamp(now.getTime());
 				insertList.setTimestamp(2, timestamp);

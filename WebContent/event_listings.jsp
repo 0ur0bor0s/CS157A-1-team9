@@ -64,7 +64,7 @@
 			out.println("<div class=\"card-group\">");
 			for (TicketBean tb : ticketlist) {
 				out.println("<div class=\"event-card\">");
-				out.println("<div>" + tb.getPrice() + "</div>");
+				out.println("<div>$" + tb.getPrice() + "</div>");
 		  		out.println("</div>");
 			}
 			out.println("</div>");

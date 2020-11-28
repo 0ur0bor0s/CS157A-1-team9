@@ -46,6 +46,8 @@
 		java.util.Date eventDate = dateFormat.parse(dateAndTime);
 		ticketBean.setDatetime(eventDate);
 	}
+	
+	ticketBean.setSellerUsername((String)session.getAttribute("username"));
 
 	/*
 	out.println(ticketBean.getNumberTickets());

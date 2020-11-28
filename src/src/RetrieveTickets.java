@@ -72,59 +72,134 @@ public class RetrieveTickets {
 		return tickets;
 	}
 	
-	
 	/**
-	 * Retrieve a specified number of event data from the database
-	 * @return List of event data
-	 * @throws ClassNotFoundException 
+	 * Function to return a list of tickets the user has listed
+	 * @param username
+	 * @return
 	 */
-	/*
-	public ArrayList<TicketBean> retrieveListings(int querynum) {
-
-		// List for storing event data
-		ArrayList<TicketBean> ticketList = new ArrayList<TicketBean>();
+	public java.util.ArrayList<TicketBean> retrieveUserListed(String username) {
+		java.util.ArrayList<TicketBean> tickets = new java.util.ArrayList<TicketBean>();
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			 // Connect to database
+			// Timezone
+			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+			
+			// Formatter for dates
+			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			// Connect to database
     		DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+
+			PreparedStatement ticketQuery = con.prepareStatement("SELECT price, Events.name, time, venueName, address, zipCode, city, district, country, Performers.name, performerType\n" + 
+					"FROM Tickets\n" + 
+					"INNER JOIN Lists ON Tickets.ticketId = Lists.ticketId\n" + 
+					"INNER JOIN Users ON Lists.userId = Users.userId\n" + 
+					"INNER JOIN Events ON Tickets.eventId = Events.eventId\n" + 
+					"INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
+					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
+					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
+					"INNER JOIN Performs ON Events.eventId = Performs.eventId\n" + 
+					"INNER JOIN Performers ON Performs.performId = Performers.performId\n" + 
+					"WHERE username = ? AND NOT EXISTS(SELECT * FROM Buys WHERE Buys.ticketId IN (SELECT ticketId \n" + 
+					"																						 FROM Lists \n" + 
+					"																						 INNER JOIN Users ON Lists.userId = Users.userId \n" + 
+					"                                                                                         WHERE username = ?)); ");
+			ticketQuery.setNString(1, username);
+			ticketQuery.setNString(2, username);
+			ResultSet tr = ticketQuery.executeQuery();
 			
-			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, zipCode, Performers.name " + 
-																"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-																"			 INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-																"			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-																"            INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
-																"            INNER JOIN Performers ON Performs.performId = Performers.performId " + 
-																"LIMIT ?");
-			eventquery.setInt(1, querynum);
-			ResultSet eqr = eventquery.executeQuery();
-			
-			// Iterate through each entry
-			while (eqr.next()) {
-				TicketBean event = new TicketBean();
+			while (tr.next()) {
+				TicketBean tb = new TicketBean();
 				
-				// Data in Event table
-				event.setEventName(eqr.getString("Events.name"));
-				event.setDatetime(eqr.getDate("time"));
-				event.setAddress(eqr.getString("address"));
+				tb.setEventName(tr.getNString("Events.name"));
+				tb.setVenueName(tr.getNString("venueName"));
+				tb.setDatetime(tr.getTimestamp("time"));
+				tb.setAddress(tr.getString("address"));
 				ArrayList<String> performList = new ArrayList<String>();
-				performList.add(eqr.getString("Performers.name"));
-				event.setPerformers(performList);
-				event.setCity(eqr.getString("city"));
-				event.setDistrict(eqr.getString("district"));
-				event.setZipcode(eqr.getInt("zipCode"));
-								
-				ticketList.add(event);
+				performList.add(tr.getString("Performers.name"));
+				tb.setPerformerType(PerformerType.valueOf(tr.getString("performerType")));
+				tb.setPerformers(performList);
+				tb.setCity(tr.getString("city"));
+				tb.setDistrict(tr.getString("district"));
+				tb.setCountry(tr.getString("country"));
+				tb.setZipcode(tr.getInt("zipCode"));
+				tb.setPrice(tr.getFloat("price"));
+				tb.setSellerUsername(username);
+				tickets.add(tb);
 			}
 			
-			eventquery.close();
 		} catch (Exception e) {
-			System.out.println(e);
-	  }
+			System.err.println(e);
+		}
 		
-	return ticketList;
-	}*/
+		
+		return tickets;
+	}
+	
+	/**
+	 * Function to return a list of tickets the user has purchased
+	 * @param username
+	 * @return
+	 */
+	public java.util.ArrayList<TicketBean> retrieveUserBought(String username) {
+		java.util.ArrayList<TicketBean> tickets = new java.util.ArrayList<TicketBean>();
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			// Timezone
+			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+			
+			// Formatter for dates
+			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			// Connect to database
+    		DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+
+			PreparedStatement ticketQuery = con.prepareStatement("SELECT Tickets.ticketId, time, price, Events.name, venueName, address, zipCode, city, district, country, Performers.name, performerType\n" + 
+					"FROM Tickets\n" + 
+					"INNER JOIN Buys ON Tickets.ticketId = Buys.ticketId\n" + 
+					"INNER JOIN Users ON Buys.userId = Users.userId\n" + 
+					"INNER JOIN Events ON Tickets.eventId = Events.eventId\n" + 
+					"INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
+					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
+					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
+					"INNER JOIN Performs ON Events.eventId = Performs.eventId\n" + 
+					"INNER JOIN Performers ON Performs.performId = Performers.performId\n" + 
+					"WHERE username = ? ");
+			ticketQuery.setNString(1, username);
+			ResultSet tr = ticketQuery.executeQuery();
+			
+			while (tr.next()) {
+				TicketBean tb = new TicketBean();
+				
+				tb.setEventName(tr.getNString("Events.name"));
+				tb.setVenueName(tr.getNString("venueName"));
+				tb.setDatetime(tr.getTimestamp("time"));
+				tb.setAddress(tr.getString("address"));
+				ArrayList<String> performList = new ArrayList<String>();
+				performList.add(tr.getString("Performers.name"));
+				tb.setPerformerType(PerformerType.valueOf(tr.getString("performerType")));
+				tb.setPerformers(performList);
+				tb.setCity(tr.getString("city"));
+				tb.setDistrict(tr.getString("district"));
+				tb.setCountry(tr.getString("country"));
+				tb.setZipcode(tr.getInt("zipCode"));
+				tb.setPrice(tr.getFloat("price"));
+				tb.setSellerUsername(username);
+				tickets.add(tb);
+			}
+			
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		
+		return tickets;
+	}
+	
 }
