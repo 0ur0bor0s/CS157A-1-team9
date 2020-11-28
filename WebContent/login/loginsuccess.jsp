@@ -30,6 +30,26 @@
 			Login log = new Login();
 			boolean status = log.validate(loginBean);
 			if (status) {
+				
+				/*
+				String rememberMe = request.getParameter("rememberme");
+				
+				// Cookies to keep user logged in if they chose 'Remember Me'
+				if (rememberMe != null && rememberMe.equalsIgnoreCase("on")) {
+					Cookie cookieUsername = new Cookie("cookieLoginUser", loginBean.getUsername());
+					cookieUsername.setMaxAge(60 * 60 * 24 * 365);
+
+					Cookie cookiePassword = new Cookie("cookieLoginPassword", loginBean.getPassword());
+					cookiePassword.setMaxAge(60 * 60 * 24 * 365);
+					
+					servletResponse.addCookie(cookieUsername);
+				}*/
+				
+				// Store username and password to maintain login
+				session.setAttribute("username", loginBean.getUsername());
+				session.setAttribute("password", loginBean.getPassword());
+				
+				
 				System.out.println("Successful login");
 				try {
 					response.sendRedirect("../home.jsp");

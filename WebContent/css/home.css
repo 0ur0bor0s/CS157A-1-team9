@@ -9,6 +9,14 @@ body {
     background: linear-gradient(70deg, #806CA5  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #6E276C 60%, #431D5A 60%);
 }
 
+button {
+	background-color: #8F4FA0;
+	border: none;
+	padding: 15px 32px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
+}
 
 /*
 === NAV BAR ================================================================
@@ -123,14 +131,7 @@ body {
 	font-weight: bold;
 }
 
-.event-card button {
-	background-color: #8F4FA0;
-	border: none;
-	padding: 15px 32px;
-	text-align: center;
-	display: inline-block;
-	font-size: 16px;
-}
+
 
 
 

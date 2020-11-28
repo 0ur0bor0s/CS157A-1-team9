@@ -1,8 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
+<%
+	// Make sure user is logged in to session
+	if ((String)session.getAttribute("username") == null) {
+		response.sendRedirect("login/login.jsp");
+	}
+%> 
 <html>
 	<head>
-		<title>Profile</title>
+		<title>CheapTix Profile</title>
+		<script type="text/javascript">
+			function logout() {
+				window.location.href = "login/logout.jsp";
+			}
+		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -16,5 +27,6 @@
         	<button type="submit"><i class="fas fa-search"></i>Search</button>
 	       </div>
 	     </div>
+	     <button type="button" onclick="logout()">Log out</button>
 	</body>
 </html>

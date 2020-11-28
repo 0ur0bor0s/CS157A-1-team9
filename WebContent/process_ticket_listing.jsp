@@ -1,6 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="src.PerformerType, src.TicketBean, src.InsertTicket" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
+<%
+	// Make sure user is logged in to session
+	if ((String)session.getAttribute("username") == null) {
+		response.sendRedirect("login/login.jsp");
+	}
+%> 
 <html>
 	<head>
 		<title>Listing Ticket</title>

@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="src.PerformerType, src.TicketBean, src.RetrieveTickets, src.EventBean" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
+<%
+	// Make sure user is logged in to session
+	if ((String)session.getAttribute("username") == null) {
+		response.sendRedirect("login/login.jsp");
+	}
+%> 
 <html>
 <head>
 <meta charset="UTF-8">

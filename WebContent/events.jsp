@@ -1,5 +1,11 @@
 <%@ page import="src.RetrieveEvents, src.EventBean, java.util.ArrayList" contentType="text/html;charset=UTF-8" language="java" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
+<%
+	// Make sure user is logged in to session
+	if ((String)session.getAttribute("username") == null) {
+		response.sendRedirect("login/login.jsp");
+	}
+%> 
 <html>
 	<head>
 		<title>Events</title>
