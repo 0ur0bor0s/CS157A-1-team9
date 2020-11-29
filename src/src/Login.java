@@ -32,7 +32,6 @@ public class Login {
         	PreparedStatement ps = con.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
         	ps.setNString(1, loginBean.getUsername());
         	ps.setNString(2, loginBean.getPassword());
-        	System.out.println(ps);
         	
         	// Execute SQL query and success boolean will determine output
         	ResultSet rs = ps.executeQuery();
@@ -43,6 +42,45 @@ public class Login {
         }
         
 		return valid_status;
+	}
+	
+	
+	/**
+	 * Function to retrieve payment methods for a given user
+	 * @param username
+	 * @return A list of payment methods user has
+	 */
+	public java.util.ArrayList<PaymentMethodBean> retrievePaymentMethods(String username) {
+		java.util.ArrayList<PaymentMethodBean> cards = new java.util.ArrayList<PaymentMethodBean>();
+		
+		try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        
+	        // Connect to database
+    		DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+        	
+			PreparedStatement pmquery = con.prepareStatement("SELECT PaymentMethod.name, cardNum, expDate, cardType\n" + 
+					"FROM PaymentMethod\n" + 
+					"INNER JOIN Users ON PaymentMethod.userId = Users.userId\n" + 
+					"WHERE Users.username = ?;");
+			pmquery.setNString(1, username);
+			ResultSet pmr = pmquery.executeQuery();
+			
+			while (pmr.next()) {
+				PaymentMethodBean pmb = new PaymentMethodBean();
+				pmb.setCardName(pmr.getNString("PaymentMethod.name"));
+				pmb.setCardNo(pmr.getNString("cardNum"));
+				pmb.setExpDate("expDate");
+				pmb.setCardType(CardType.valueOf(pmr.getNString("cardType")));
+				cards.add(pmb);
+			}
+	        
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return cards;
 	}
 	
 	

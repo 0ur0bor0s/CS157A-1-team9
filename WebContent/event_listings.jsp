@@ -63,9 +63,14 @@
 			out.println("<h2>Tickets were found</h2>");
 			out.println("<div class=\"card-group\">");
 			for (TicketBean tb : ticketlist) {
+		  		out.println("<a style='text-decoration:none; color:black' href='ticket_purchase.jsp?venueName=" + 
+		  				tb.getVenueName() + "&eventName=" + tb.getEventName() + "&datetime=" + dateFormat.format(tb.getDatetime()) + "&performers=" + tb.getPerformers() + 
+	  					"&ptype=" + tb.getPerformerType() + "&address=" + tb.getAddress() + "&city=" + tb.getCity() + "&district=" + tb.getDistrict() + 
+	  					"&zipcode=" + tb.getZipcode() + "&country=" + tb.getCountry() + "&price=" + tb.getPrice() + "&ticketId=" + tb.getTicketId() + "'>");
 				out.println("<div class=\"event-card\">");
 				out.println("<div>$" + tb.getPrice() + "</div>");
 		  		out.println("</div>");
+		  		out.println("</a>");
 			}
 			out.println("</div>");
 

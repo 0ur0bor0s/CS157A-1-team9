@@ -28,7 +28,7 @@
 	  	
 		  	// Retrieve events
 		  	RetrieveEvents revents = new RetrieveEvents();
-		  	ArrayList<EventBean> events = revents.retrieve(20);
+		  	ArrayList<EventBean> events = revents.retrieve(50);
 			out.println("<div class=\"card-group\">");
 		  	for (EventBean e : events) {
 		  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 

@@ -38,31 +38,27 @@ public class RetrieveTickets {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query the database for event info
-			PreparedStatement ticketQuery = con.prepareStatement("SELECT ticketId, price " + 
-					"FROM Tickets " + 
-					"INNER JOIN Events ON Tickets.eventId = Events.eventId " + 
-					"INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-					"WHERE Events.name = ? AND time = ? AND venueName = ? AND Address = ? AND zipCode = ? " + 
+			PreparedStatement ticketQuery = con.prepareStatement("SELECT ticketId, price\n" + 
+					"FROM Tickets \n" + 
+					"INNER JOIN Events ON Tickets.eventId = Events.eventId\n" + 
+					"INNER JOIN Venues ON Events.venueId = Venues.venueId \n" + 
+					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
+					"WHERE  Tickets.ticketId NOT IN (SELECT ticketId FROM Buys)\n" + 
+					"AND Events.name = ? AND time = ? AND venueName = ? AND Address = ? AND zipCode = ? \n" + 
 					"LIMIT 50;");
 			ticketQuery.setNString(1, eb.getEventName());
-			System.out.println(eb.getEventName());
 			ticketQuery.setNString(2, dateFormat.format(eb.getDatetime()));
 			ticketQuery.setNString(3, eb.getVenueName());
-			System.out.println(eb.getVenueName());
 			ticketQuery.setNString(4, eb.getAddress());
-			System.out.println(eb.getAddress());
 			ticketQuery.setInt(5, eb.getZipcode());
-			System.out.println(eb.getZipcode());
 			ResultSet tr = ticketQuery.executeQuery();
 			
 			while (tr.next()) {
 				TicketBean tb = new TicketBean(eb);
+				tb.setTicketId(tr.getInt("ticketId"));
 				tb.setPrice(tr.getFloat("price"));
-				System.out.println("Ticket found");
 				tickets.add(tb);
 			}
-			System.out.println("ticket ended");
 
 		} catch (Exception e) {
 			System.err.println(e);
@@ -93,7 +89,7 @@ public class RetrieveTickets {
     		DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 
-			PreparedStatement ticketQuery = con.prepareStatement("SELECT price, Events.name, time, venueName, address, zipCode, city, district, country, Performers.name, performerType\n" + 
+			PreparedStatement ticketQuery = con.prepareStatement("SELECT Tickets.ticketId, price, Events.name, time, venueName, address, zipCode, city, district, country, Performers.name, performerType\n" + 
 					"FROM Tickets\n" + 
 					"INNER JOIN Lists ON Tickets.ticketId = Lists.ticketId\n" + 
 					"INNER JOIN Users ON Lists.userId = Users.userId\n" + 
@@ -127,6 +123,7 @@ public class RetrieveTickets {
 				tb.setCountry(tr.getString("country"));
 				tb.setZipcode(tr.getInt("zipCode"));
 				tb.setPrice(tr.getFloat("price"));
+				tb.setTicketId(tr.getInt("ticketId"));
 				tb.setSellerUsername(username);
 				tickets.add(tb);
 			}
@@ -190,6 +187,7 @@ public class RetrieveTickets {
 				tb.setCountry(tr.getString("country"));
 				tb.setZipcode(tr.getInt("zipCode"));
 				tb.setPrice(tr.getFloat("price"));
+				tb.setTicketId(tr.getInt("ticketId"));
 				tb.setSellerUsername(username);
 				tickets.add(tb);
 			}

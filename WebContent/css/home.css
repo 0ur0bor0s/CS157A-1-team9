@@ -10,6 +10,7 @@ body {
 }
 
 button {
+	border-radius: 10px;
 	background-color: #8F4FA0;
 	border: none;
 	padding: 15px 32px;
@@ -17,6 +18,16 @@ button {
 	display: inline-block;
 	font-size: 16px;
 }
+
+canvas {
+	text-align: center;
+}
+
+video {
+	display: none;
+}
+
+
 
 /*
 === NAV BAR ================================================================
@@ -112,6 +123,7 @@ button {
 	margin: 50px auto;
 	overflow: auto;
 }
+
 
 .event-card {
 	border-radius: 20px;

@@ -34,13 +34,15 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, Performers.name , performerType " + 
-				"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-				"			 INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-				"			 INNER JOIN Cities ON Addresses.cityId = Cities.cityId " + 
-				"            INNER JOIN Performs ON Events.eventId = Performs.eventId " + 
-				"            INNER JOIN Performers ON Performs.performId = Performers.performId " + 
-				"LIMIT ?");
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, Performers.name , performerType\n" + 
+					"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
+					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId \n" + 
+					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
+					"INNER JOIN Performs ON Events.eventId = Performs.eventId \n" + 
+					"INNER JOIN Performers ON Performs.performId = Performers.performId \n" + 
+					"WHERE Events.eventId NOT IN (SELECT Tickets.eventId FROM Buys \n" + 
+					"INNER JOIN Tickets ON Buys.ticketId = Tickets.ticketId )" +
+					"LIMIT ?");
 			eventquery.setInt(1, querynum);
 			ResultSet eqr = eventquery.executeQuery();
 			

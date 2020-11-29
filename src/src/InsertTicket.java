@@ -237,4 +237,32 @@ public class InsertTicket {
 		
 		return status;
 	}
+	
+	/**
+	 * Function for user to purchase ticket
+	 * @param ticketId
+	 * @param username
+	 * @return a boolean status on the success of the insertion
+	 */
+	public boolean buyTicket(int ticketId, String username) {
+		boolean status = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			// Connect to database
+			DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+			
+			PreparedStatement buyticket = con.prepareStatement("INSERT INTO Buys(userId, ticketId, timestamp) VALUES (?, ?, NOW())");
+			buyticket.setInt(1, ticketId);
+			buyticket.setNString(2, username);
+			status = buyticket.execute();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
 }

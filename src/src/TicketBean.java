@@ -19,6 +19,7 @@ public class TicketBean extends EventBean implements Serializable {
 	private float price;
 	private boolean isPurchased = false;
 	private String username;
+	private int ticketId;
 	
 	public TicketBean(EventBean eb) {
 		super.setEventName(eb.getEventName());
@@ -35,9 +36,14 @@ public class TicketBean extends EventBean implements Serializable {
 	
 	public TicketBean() {}
 	
+	public void setTicketId(int ticketId) {
+		this.ticketId = ticketId;
+	}
+	
 	public void setNumberTickets(int numberTickets) {
 		this.numberTickets = numberTickets;
 	}
+	
 	
 	public void setPrice(float price) {
 		this.price = price;
@@ -49,6 +55,10 @@ public class TicketBean extends EventBean implements Serializable {
 	
 	public void setSellerUsername(String username) {
 		this.username = username;
+	}
+	
+	public int getTicketId() {
+		return ticketId;
 	}
 	
 	public float getPrice() {
