@@ -18,10 +18,12 @@
 	      <a class="current" href="events.jsp">Events</a>
 	      <a href="profile.jsp">Profile</a>
 	      <div class="search-bar">
-	        <input type="text" placeholder="Search artists, events, etc . .">
-        	<button type="submit"><i class="fas fa-search"></i>Search</button>
-	       </div>
-	     </div>
+	      	<form method="post" action="search.jsp">
+	      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
+        		<button type="submit"><i class="fas fa-search"></i>Search</button>
+	        </form>
+	      </div>
+	    </div>
 	  	<%
 			// Formatter for dates
 			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

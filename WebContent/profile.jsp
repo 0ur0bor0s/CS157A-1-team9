@@ -23,11 +23,17 @@
 	      <a href="events.jsp">Events</a>
 	      <a class="current" href="profile.jsp">Profile</a>
 	      <div class="search-bar">
-	        <input type="text" placeholder="Search artists, events, etc . .">
-        	<button type="submit"><i class="fas fa-search"></i>Search</button>
+	      	<form method="post" action="search.jsp">
+	      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
+        		<button type="submit"><i class="fas fa-search"></i>Search</button>
+	        </form>
 	       </div>
 	     </div>
 	     <h1>Hello <%= (String)session.getAttribute("username") %></h1>
+	     <form method='post' action='change_email.jsp'>
+	     	<input type='text' placeholder='ChangeMe@gmail.com'>
+	     	<input type='submit' value='Change Email'>
+	     </form>
 	     <button type="button" onclick="logout()">Log out</button>
 	</body>
 </html>

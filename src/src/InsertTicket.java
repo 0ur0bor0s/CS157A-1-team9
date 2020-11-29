@@ -260,7 +260,7 @@ public class InsertTicket {
 			status = buyticket.execute();
 
 		} catch (Exception e) {
-			System.out.println(e);
+			System.err.println(e);
 		}
 		
 		return status;

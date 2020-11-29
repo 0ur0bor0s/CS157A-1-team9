@@ -20,8 +20,10 @@
 	     <a href="events.jsp">Events</a>
 	     <a href="profile.jsp">Profile</a>
 	     <div class="search-bar">
-	       <input type="text" placeholder="Search artists, events, etc . .">
-           <button type="submit"><i class="fas fa-search"></i>Search</button>
+	      	<form method="post" action="search.jsp">
+	      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
+        		<button type="submit"><i class="fas fa-search"></i>Search</button>
+	        </form>
 	 	 </div>
 	</div>
 	<h1><%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
