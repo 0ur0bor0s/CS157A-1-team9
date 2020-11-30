@@ -37,6 +37,8 @@ public class Login {
         	ResultSet rs = ps.executeQuery();
         	valid_status = rs.next();
         	
+        	ps.close();
+        	con.close();	
         } catch (Exception e) {
         	System.out.println(e);
         }
@@ -76,11 +78,35 @@ public class Login {
 				cards.add(pmb);
 			}
 	        
+			pmr.close();
+			pmquery.close();
+			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		
 		return cards;
+	}
+	
+	public boolean changeEmail(String email) {
+		boolean status = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+	        
+	        // Connect to database
+    		DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+        	
+			PreparedStatement updateemail = con.prepareStatement("");
+			
+			updateemail.close();
+			con.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return status;
 	}
 	
 	

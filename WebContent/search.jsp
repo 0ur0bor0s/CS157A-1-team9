@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="src.RetrieveEvents, src.EventBean" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
+<%
+	// Make sure user is logged in to session
+	if ((String)session.getAttribute("username") == null) {
+		response.sendRedirect("login/login.jsp");
+	}
+%> 
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,7 +15,6 @@
 <body>
 	<div class="navbar">
 	     <a href="home.jsp">Home</a>
-	     <a href="buy.jsp">Buy</a>
 	     <a href="sell.jsp">Sell</a>
 	     <a href="events.jsp">Events</a>
 	     <a href="profile.jsp">Profile</a>
@@ -30,6 +35,7 @@
 				
 		if (!events.isEmpty()) {
 			out.println("<div class=\"card-group\">");
+			out.println("<h2>Showing results for: " + request.getParameter("keyword") + "</h2>");
 			for (EventBean e : events) {
 			out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
 	  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 

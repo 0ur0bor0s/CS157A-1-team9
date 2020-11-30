@@ -60,6 +60,9 @@ public class RetrieveTickets {
 				tickets.add(tb);
 			}
 
+			tr.close();
+			ticketQuery.close();
+			con.close();
 		} catch (Exception e) {
 			System.err.println(e);
 			e.printStackTrace();
@@ -128,6 +131,9 @@ public class RetrieveTickets {
 				tickets.add(tb);
 			}
 			
+			tr.close();
+			ticketQuery.close();
+			con.close();
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -192,6 +198,9 @@ public class RetrieveTickets {
 				tickets.add(tb);
 			}
 			
+			tr.close();
+			ticketQuery.close();
+			con.close();
 		} catch (Exception e) {
 			System.err.println(e);
 		}

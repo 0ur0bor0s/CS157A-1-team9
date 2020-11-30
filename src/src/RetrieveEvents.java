@@ -72,6 +72,8 @@ public class RetrieveEvents {
 				eventList.add(event);
 			}
 			
+			eqr.close();
+			con.close();
 			eventquery.close();
 		} catch (Exception e) {
 			System.err.println(e);
@@ -149,6 +151,9 @@ public class RetrieveEvents {
 				events.add(event);
 			}
 			
+			eqr.close();
+			eventquery.close();
+			con.close();
 		} catch (Exception e) {
 			System.err.println(e);
 		}

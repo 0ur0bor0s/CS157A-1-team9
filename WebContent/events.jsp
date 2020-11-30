@@ -8,12 +8,11 @@
 %> 
 <html>
 	<head>
-		<title>Events</title>
+		<title>CheapTix Events</title>
 	</head>
 	<body>
 		<div class="navbar">
 	      <a href="home.jsp">Home</a>
-	      <a href="buy.jsp">Buy</a>
 	      <a href="sell.jsp">Sell</a>
 	      <a class="current" href="events.jsp">Events</a>
 	      <a href="profile.jsp">Profile</a>

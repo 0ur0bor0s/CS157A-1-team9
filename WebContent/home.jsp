@@ -15,7 +15,6 @@
   <body>
 	<div class="navbar">
       <a class="current" href="home.jsp">Home</a>
-      <a href="buy.jsp">Buy</a>
       <a href="sell.jsp">Sell</a>
       <a href="events.jsp">Events</a>
 	  <a href="profile.jsp">Profile</a>
@@ -26,12 +25,15 @@
         </form>
      </div>
   </div>
-  <h1>Hello <%= (String)session.getAttribute("username") %></h1>
-  <canvas id="glCanvas" width="640" height="480"></canvas>
+  <div class="header-group">
+  	<h1>Hello <%= (String)session.getAttribute("username") %></h1>
+  </div>
+  <!-- <canvas id="glCanvas" width="640" height="480"></canvas> -->
+  <!--
   <div class="about-desc">
   	<h2>What is CheapTix?</h2>
   	<p>Ticket reselling is a huge market as many ticket holders are unable to directly refund their ticket and instead turn to online ticket reselling platforms to easily make their money back.  Although there currently exist many ticket resale platforms, many of these platforms charge their users convenience fees in order to turn a profit.  The motivation behind the development of this application is to provide ticket sellers and buyers with an online ticket resale experience, free of convenience fees.</p>
-  </div>
+  </div>-->
   <div>
     <%
     	RetrieveTickets rtickets = new RetrieveTickets();
@@ -47,7 +49,7 @@
     	
     	for (TicketBean t : listedList) {
     		out.println("<div class=\"event-card\">");
-    		out.println("<div class='price'>$" + t.getPrice() + "</div>");
+    		out.println("<div class='price'>$" + String.format("%.2f", t.getPrice()) + "</div>");
     		out.println("<div class=\"date\">" + t.getDatetime().getDate() + "</div>");
       		out.println("<div class=\"time\">" + t.getDatetime().getTime() + "</div>");
       		ArrayList<String> performers = t.getPerformers();
@@ -56,6 +58,11 @@
       		}
       		out.println("<div class=\"event-name\">" + t.getEventName() + "</div>");
       		out.println("<div class=\"location\">" + t.getAddress() + "</div>");
+      		out.println("<form method='post' action='change_price.jsp?ticketId=" + t.getTicketId() +"'>" +
+      		     	"<input type='number' min='0' name='price' id='price' placeholder='25.00'>&nbsp;" +
+      		     	"<input type='submit' value='Change Price'>" +
+      		         "</form>");
+	  		out.println("<button href='delete_ticket.jsp' onclick=\"window.location.href='delete_ticket.jsp?ticketId=" + t.getTicketId() + "'\">Remove Ticket Listing</button>");
       		out.println("</div>");
     	}
     	out.println("</div>");

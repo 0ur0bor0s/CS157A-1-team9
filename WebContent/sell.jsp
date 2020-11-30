@@ -38,7 +38,6 @@
 	<body>
 		<div class="navbar">
 	      <a href="home.jsp">Home</a>
-	      <a href="buy.jsp">Buy</a>
 	      <a class="current" href="sell.jsp">Sell</a>
 	      <a href="events.jsp">Events</a>
 	      <a href="profile.jsp">Profile</a>

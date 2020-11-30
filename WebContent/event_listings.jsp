@@ -15,7 +15,6 @@
 <body>
 	<div class="navbar">
 	     <a href="home.jsp">Home</a>
-	     <a href="buy.jsp">Buy</a>
 	     <a href="sell.jsp">Sell</a>
 	     <a href="events.jsp">Events</a>
 	     <a href="profile.jsp">Profile</a>
@@ -70,7 +69,7 @@
 	  					"&ptype=" + tb.getPerformerType() + "&address=" + tb.getAddress() + "&city=" + tb.getCity() + "&district=" + tb.getDistrict() + 
 	  					"&zipcode=" + tb.getZipcode() + "&country=" + tb.getCountry() + "&price=" + tb.getPrice() + "&ticketId=" + tb.getTicketId() + "'>");
 				out.println("<div class=\"event-card\">");
-				out.println("<div>$" + tb.getPrice() + "</div>");
+				out.println("<div>$" + String.format("%.2f", tb.getPrice()) + "</div>");
 		  		out.println("</div>");
 		  		out.println("</a>");
 			}

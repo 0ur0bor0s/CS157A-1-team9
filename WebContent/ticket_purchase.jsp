@@ -15,7 +15,6 @@
 <body>
 	<div class="navbar">
 	     <a href="home.jsp">Home</a>
-	     <a href="buy.jsp">Buy</a>
 	     <a href="sell.jsp">Sell</a>
 	     <a href="events.jsp">Events</a>
 	     <a href="profile.jsp">Profile</a>
@@ -27,7 +26,7 @@
 	     </div>
 	  </div>
 	  <h1>Purchase ticket for <%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
-	  <h2>Price: $<%= request.getParameter("price") %></h2>
+	  <h2>Price: $<%= String.format("%.2f", Float.valueOf(request.getParameter("price"))) %></h2>
 	  
 	  <%
 	  	// Get cards that current user owns

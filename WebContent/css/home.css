@@ -20,6 +20,10 @@ button {
 	color: white;
 }
 
+button:hover {
+	background-color: #5f0493;
+}
+
 canvas {
 	text-align: center;
 }
@@ -150,6 +154,22 @@ video {
 	font-weight: bold;
 }
 
+
+.header-group {
+	border-radius: 20px;
+	background-color: #D8A3DD;
+	width: 80%;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+	padding-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	width: 400px;
+	text-align: center;
+	overflow: auto;
+}
 
 
 
