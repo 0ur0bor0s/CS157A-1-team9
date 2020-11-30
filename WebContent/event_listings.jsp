@@ -25,6 +25,7 @@
 	        </form>
 	 	 </div>
 	</div>
+	<div class="header-group">
 	<h1><%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
 	<h2>Performing: <%=
 		request.getParameter("performers")
@@ -56,13 +57,15 @@
 		eb.setCountry(request.getParameter("country"));
 		eb.setZipcode(Integer.parseInt(request.getParameter("zipcode")));
 		
+		out.println("</div>");
+		
 		// Populate a page for ticket postings
 		RetrieveTickets rt = new RetrieveTickets();
 		java.util.ArrayList<TicketBean> ticketlist = rt.retrieveEventListings(eb);
 		
+		out.println("<div class=\"card-group\">");
 		if (!ticketlist.isEmpty()) {
-			out.println("<h2>Tickets were found</h2>");
-			out.println("<div class=\"card-group\">");
+			out.println("<h2>Tickets were found:</h2>");
 			for (TicketBean tb : ticketlist) {
 		  		out.println("<a style='text-decoration:none; color:black' href='ticket_purchase.jsp?venueName=" + 
 		  				tb.getVenueName() + "&eventName=" + tb.getEventName() + "&datetime=" + dateFormat.format(tb.getDatetime()) + "&performers=" + tb.getPerformers() + 
@@ -73,11 +76,11 @@
 		  		out.println("</div>");
 		  		out.println("</a>");
 			}
-			out.println("</div>");
-
 		} else {
-			out.println("<h2>No tickets are currently being sold for this event</h2>");
+			out.println("<h2>No tickets are currently being sold for this event.</h2>");
 		}
+		out.println("</div>");
+
 	%>
 </body>
 </html>

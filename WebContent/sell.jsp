@@ -85,7 +85,7 @@
 	     	<label for="country">Country:</label><br>
 	     	<input type="text" id="country" name="country"><br>
 	     	<label for="zipcode">Zip Code:</label><br>
-	     	<input type="number" id="zipcode" name="zipcode"><br>
+	     	<input type="number" id="zipcode" name="zipcode"><br><br>
 	     	<input type="submit" value="Submit">
 	     </form>
 	     </div>

@@ -25,9 +25,10 @@
 	        </form>
 	     </div>
 	  </div>
+	  <div class="card-group">
 	  <h1>Purchase ticket for <%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
+	  <div class="sell-card">
 	  <h2>Price: $<%= String.format("%.2f", Float.valueOf(request.getParameter("price"))) %></h2>
-	  
 	  <%
 	  	// Get cards that current user owns
 	  	Login l = new Login();
@@ -38,27 +39,18 @@
 	  				request.getParameter("venueName") + "&eventName=" + request.getParameter("eventName") + "&datetime=" + request.getParameter("datetime") + "&performers=" + request.getParameter("performers") + 
   					"&ptype=" + request.getParameter("ptype") + "&address=" + request.getParameter("address") + "&city=" + request.getParameter("city") + "&district=" + request.getParameter("district") + 
   					"&zipcode=" + request.getParameter("zipcode") + "&country=" + request.getParameter("country") + "&price=" + request.getParameter("price") + "&ticketId=" + request.getParameter("ticketId") + "'>");
-		  	out.println("<label for=\"payment-method\">Payment Method:</label><br>");
+		  	out.println("<label for=\"payment-method\"><b>Payment Method:</b></label><br>");
 	  		for (PaymentMethodBean c : cards) {
 	  			out.println("<input type='radio' name='paymentMethod' value=" + c + "'>");
 	  			out.println("<label for='payment-method'>" + "<b>" + c.getCardName() + "</b> " + c.getCardType() + " " + c.getCardNo() + " " + c.getExpDate() + "</label><br>");
 	  		}
 	  	} else { // If no cards exist, add new one
-	  		out.println("<h2>It looks like you haven't set up a payment method yet. Lets go do that!</h2>");
-	  		out.println("<button href='profile.jsp' onclick=\"window.location.href='profile.jsp'\">Add Payment Method</button>");
-	  		out.println("<form method='post' action='add_payment_method.jsp>");
-	  		out.println("<label for='payment-method'>Add Payment Method:</label><br>");
-	  		out.println("<input type='text' name='name' placeholder='Full name on card'><br>");
-	  		out.println("<input type='text' name='cardNo' maxlength='16' placeholder='16-digit card number'><br>");
-	  		out.println("<input type='number' min='1' max='12' name='expMonth' placeholder='Expiration month'>&nbsp;/&nbsp;<input type='number' min='2020' max='2030' name='expYr' placeholder='Expiration year'><br>");
-	  		for (CardType c : CardType.values()) {
-	  			out.println("<input type='radio' id='" + c.name() + "' name='cardType' value='" + c.name() + "'>");
-	  			out.println("<label for='" + c.name() + "'>" + c.name() + "</label><br>");
-	  		}
-	  		
+	  		out.println("<h2>It looks like you haven't set up a payment method yet. Please add one unser the profile tab!</h2>");
 	  	}
 	  %>
 	  <input type='submit' value='Submit'>
 	  </form>
+	  </div>
+	  </div>
 </body>
 </html>
