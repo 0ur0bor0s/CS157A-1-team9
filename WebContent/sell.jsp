@@ -48,7 +48,9 @@
 	        </form>
 	       </div>
 	     </div>
+	     <div class="card-group">
 	     <h1>Enter the tickets you want to sell here!</h1>
+	     <div class="sell-card">
 	     <form method="post" action="process_ticket_listing.jsp">
 	     	<label for="num-tickets">Number of tickets you wish to sell:</label><br>
 	     	<input type="number" min="1" id="num-tickets" name="numberTickets"><br>
@@ -86,6 +88,8 @@
 	     	<input type="number" id="zipcode" name="zipcode"><br>
 	     	<input type="submit" value="Submit">
 	     </form>
+	     </div>
+	     </div>
 	</body>
 </html>
 	

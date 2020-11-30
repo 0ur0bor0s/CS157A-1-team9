@@ -31,6 +31,7 @@
 		  	RetrieveEvents revents = new RetrieveEvents();
 		  	ArrayList<EventBean> events = revents.retrieve(50);
 			out.println("<div class=\"card-group\">");
+			out.println("<h1>Events with ticket listings:</h1>");
 		  	for (EventBean e : events) {
 		  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
 		  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 

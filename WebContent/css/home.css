@@ -144,6 +144,14 @@ video {
 	margin-top: 20px;
 }
 
+.sell-card {
+	border-radius: 20px;
+	padding: 10px 10px;
+	background: linear-gradient(110deg, #BC76BA 60%, #D8A3DD 60%);
+	/*background-color: rgba(255, 151, 15, 0.3);*/
+	margin-top: 20px;
+}
+
 .event-card:hover {
 	background: linear-gradient(110deg, #431D5A 60%, #8E4175 60%);
 	/* background-color: #ff970f;*/
