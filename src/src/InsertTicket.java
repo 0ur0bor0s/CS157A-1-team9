@@ -254,10 +254,11 @@ public class InsertTicket {
 			DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
-			PreparedStatement buyticket = con.prepareStatement("INSERT INTO Buys(userId, ticketId, timestamp) VALUES (?, ?, NOW())");
-			buyticket.setInt(1, ticketId);
-			buyticket.setNString(2, username);
-			status = buyticket.execute();
+			PreparedStatement buyticket = con.prepareStatement("INSERT INTO Buys(userId, ticketId, timestamp) VALUES ((SELECT userId FROM Users WHERE username = ?), ?, NOW())");
+			buyticket.setNString(1, username);
+			buyticket.setInt(2, ticketId);
+			buyticket.execute();
+			status = true;
 			
 			buyticket.close();
 			con.close();
@@ -284,7 +285,7 @@ public class InsertTicket {
 			
 			PreparedStatement deleteTicket = con.prepareStatement("DELETE FROM Tickets WHERE ticketId = ?;\n");
 			deleteTicket.setInt(1, ticketId);
-			PreparedStatement safemodeoff = con.prepareStatement("SET_SQL_SAFE_UPDATES = 0;");
+			PreparedStatement safemodeoff = con.prepareStatement("SET SQL_SAFE_UPDATES = 0;");
 			PreparedStatement deleteBuys = con.prepareStatement("DELETE FROM Buys WHERE ticketId = ?;");
 			deleteBuys.setInt(1, ticketId);
 			PreparedStatement safemodeon = con.prepareStatement("SET SQL_SAFE_UPDATES = 1;");
