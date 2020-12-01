@@ -26,6 +26,7 @@
 	  	<%
 			// Formatter for dates
 			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	  		java.text.SimpleDateFormat printFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
 	  	
 		  	// Retrieve events
 		  	RetrieveEvents revents = new RetrieveEvents();
@@ -38,14 +39,15 @@
 		  					"&ptypes=" + e.getPerformerTypes() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
 		  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
 				out.println("<div class=\"event-card\">");
-		  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");
-		  		out.println("<div class=\"time\">" + e.getDatetime().getTime() + "</div>");
+				out.println("<div class='event-name'><h3>" + e.getEventName() + " at " + e.getVenueName() + "</h3></div>");
+		  		out.println("<b>Performing:</b><br>");
 		  		ArrayList<String> performers = e.getPerformers();
 		  		for (String performer : performers) {
 		  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 		  		}
-		  		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
-		  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
+		  		out.println("<br><b>Date:</b><br>");
+		  		out.println("<div class=\"time\">" + printFormat.format(e.getDatetime()) + "</div><br>");
+		  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + "</div>");
 		  		out.println("</div>");
 		  		out.println("</a>");
 		  	}

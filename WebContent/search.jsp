@@ -29,7 +29,9 @@
 		// Search for keyword in Events
 		RetrieveEvents re = new RetrieveEvents();
 		java.util.ArrayList<EventBean> events = re.searchKeyword(request.getParameter("keyword"));
-		
+  		java.text.SimpleDateFormat printFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+				
 		// Formatter for dates
 		java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				
@@ -37,19 +39,20 @@
 			out.println("<div class=\"card-group\">");
 			out.println("<h2>Showing results for: " + request.getParameter("keyword") + "</h2>");
 			for (EventBean e : events) {
-			out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
+				out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
 	  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 
-	  					"&ptype=" + e.getPerformerType() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
+	  					"&ptypes=" + e.getPerformerTypes() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
 	  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
 			out.println("<div class=\"event-card\">");
-	  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");
-	  		out.println("<div class=\"time\">" + e.getDatetime().getTime() + "</div>");
+			out.println("<div class='event-name'><h3>" + e.getEventName() + " at " + e.getVenueName() + "</h3></div>");
+	  		out.println("<b>Performing:</b><br>");
 	  		java.util.ArrayList<String> performers = e.getPerformers();
 	  		for (String performer : performers) {
 	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 	  		}
-	  		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
-	  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
+	  		out.println("<br><b>Date:</b><br>");
+	  		out.println("<div class=\"time\">" + printFormat.format(e.getDatetime()) + "</div><br>");
+	  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + "</div>");
 	  		out.println("</div>");
 	  		out.println("</a>");
 			}

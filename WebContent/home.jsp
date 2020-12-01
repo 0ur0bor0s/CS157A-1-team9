@@ -39,6 +39,8 @@
     	RetrieveTickets rtickets = new RetrieveTickets();
     	java.util.ArrayList<TicketBean> listedList = rtickets.retrieveUserListed((String)session.getAttribute("username"));
     	
+		java.text.SimpleDateFormat printFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
+    	
     	out.println("<div class=\"card-group\">");
     	
     	out.println("<h2>Tickets you have listed:</h2>");
@@ -49,23 +51,25 @@
     	
     	for (TicketBean t : listedList) {
     		out.println("<div class=\"event-card\">");
-    		out.println("<div class='price'>$" + String.format("%.2f", t.getPrice()) + "</div>");
-    		out.println("<div class=\"date\">" + t.getDatetime().getDate() + "</div>");
-      		out.println("<div class=\"time\">" + t.getDatetime().getTime() + "</div>");
-      		ArrayList<String> performers = t.getPerformers();
-      		for (String performer : performers) {
-      	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
-      		}
-      		out.println("<div class=\"event-name\">" + t.getEventName() + "</div>");
-      		out.println("<div class=\"location\">" + t.getAddress() + "</div>");
+    		out.println("<div class='price'><b>Price: $" + String.format("%.2f", t.getPrice()) + "</b></div>");
+			out.println("<div class='event-name'><h3>" + t.getEventName() + " at " + t.getVenueName() + "</h3></div>");
+	  		out.println("<b>Performing:</b><br>");
+	  		ArrayList<String> performers = t.getPerformers();
+	  		for (String performer : performers) {
+	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
+	  		}
+	  		out.println("<br><b>Date:</b><br>");
+	  		out.println("<div class=\"time\">" + printFormat.format(t.getDatetime()) + "</div><br>");
+	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + "</div>");
       		out.println("<form method='post' action='change_price.jsp?ticketId=" + t.getTicketId() +"'>" +
       		     	"<input type='number' min='0' name='price' id='price' placeholder='25.00'>&nbsp;" +
       		     	"<input type='submit' value='Change Price'>" +
       		         "</form>");
 	  		out.println("<button href='delete_ticket.jsp' onclick=\"window.location.href='delete_ticket.jsp?ticketId=" + t.getTicketId() + "'\">Remove Ticket Listing</button>");
-      		out.println("</div>");
+	  		out.println("</div>");
     	}
     	out.println("</div>");
+
     %>
   </div>
   <div>
@@ -82,47 +86,49 @@
     	
     	for (TicketBean t : boughtList) {
     		out.println("<div class=\"event-card\">");
-    		out.println("<div class=\"date\">" + t.getDatetime().getDate() + "</div>");
-      		out.println("<div class=\"time\">" + t.getDatetime().getTime() + "</div>");
-      		ArrayList<String> performers = t.getPerformers();
-      		for (String performer : performers) {
-      	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
-      		}
-      		out.println("<div class=\"event-name\">" + t.getEventName() + "</div>");
-      		out.println("<div class=\"location\">" + t.getAddress() + "</div>");
-      		out.println("</div>");
+			out.println("<div class='event-name'><h3>" + t.getEventName() + " at " + t.getVenueName() + "</h3></div>");
+	  		out.println("<b>Performing:</b><br>");
+	  		ArrayList<String> performers = t.getPerformers();
+	  		for (String performer : performers) {
+	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
+	  		}
+	  		out.println("<br><b>Date:</b><br>");
+	  		out.println("<div class=\"time\">" + printFormat.format(t.getDatetime()) + "</div><br>");
+	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + "</div>");
+	  		out.println("</div>");
     	}
     	out.println("</div>");
     %>
   </div>
   <div>
   	 <%
-  // Formatter for dates
-  			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-  	  	
-  		  	// Retrieve events
-  		  	RetrieveEvents revents = new RetrieveEvents();
-  		  	ArrayList<EventBean> events = revents.retrieve(50);
-  			out.println("<div class=\"card-group\">");
-  			out.println("<h2>Events with tickets for sale:</h2>");
-  		  	for (EventBean e : events) {
-  		  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
-  		  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 
-  		  					"&ptypes=" + e.getPerformerTypes() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
-  		  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
-  				out.println("<div class=\"event-card\">");
-  		  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");
-  		  		out.println("<div class=\"time\">" + e.getDatetime().getTime() + "</div>");
-  		  		ArrayList<String> performers = e.getPerformers();
-  		  		for (String performer : performers) {
-  		  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
-  		  		}
-  		  		out.println("<div class=\"event-name\">" + e.getEventName() + "</div>");
-  		  		out.println("<div class=\"location\">" + e.getAddress() + "</div>");
-  		  		out.println("</div>");
-  		  		out.println("</a>");
-  		  	}
-  			out.println("</div>");
+		// Formatter for dates
+		java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	  	// Retrieve events
+	  	RetrieveEvents revents = new RetrieveEvents();
+	  	ArrayList<EventBean> events = revents.retrieve(50);
+		out.println("<div class=\"card-group\">");
+		out.println("<h1>Events with ticket listings:</h1>");
+	  	for (EventBean e : events) {
+	  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
+	  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 
+	  					"&ptypes=" + e.getPerformerTypes() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
+	  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
+			out.println("<div class=\"event-card\">");
+			out.println("<div class='event-name'><h3>" + e.getEventName() + " at " + e.getVenueName() + "</h3></div>");
+	  		out.println("<b>Performing:</b><br>");
+	  		ArrayList<String> performers = e.getPerformers();
+	  		for (String performer : performers) {
+	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
+	  		}
+	  		out.println("<br><b>Date:</b><br>");
+	  		out.println("<div class=\"time\">" + printFormat.format(e.getDatetime()) + "</div><br>");
+	  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + "</div>");
+	  		out.println("</div>");
+	  		out.println("</a>");
+	  	}
+		out.println("</div>");
   %>
   </div>
  	<script type="text/javascript">
