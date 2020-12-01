@@ -56,7 +56,7 @@
 		 <h3>Registered Payment Methods:</h3>
 		 <%
 		 	for (PaymentMethodBean c : cards) {
-		 		out.println("<form method='post' action='delete_payment_method.jsp?name=" + c.getCardName() + "&cardType=" + c.getCardType() + "&cardExpDate=" + c.getExpDate() + "'>");
+		 		out.println("<form method='post' action='changeuser/delete_payment_method.jsp?name=" + c.getCardName() + "&cardNo=" + c.getCardNo() + "&expDate=" + c.getExpDate() + "'>");
 		 		out.println("<label for='payment-method'>" + "<b>" + c.getCardName() + "</b> " + c.getCardType() + " " + c.getCardNo() + " " + c.getExpDate() + "</label>");
 		 		out.println("&nbsp;<input type='submit' value='Delete Payment Method'><br>");
 		 		out.println("</form>");

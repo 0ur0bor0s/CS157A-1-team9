@@ -276,16 +276,20 @@ public class Login {
     		DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
-			PreparedStatement deleteinfo = con.prepareStatement("DELETE FROM PaymentMethod\n" + 
-					"WHERE userId = (SELECT userId FROM Users Where username = ?) AND name = ? AND cardNum = ? AND expDate = ?;");
+			PreparedStatement deleteinfo = con.prepareStatement("DELETE FROM PaymentMethod \n" + 
+					"WHERE userId = (SELECT userId FROM Users WHERE username = ?) AND name = ? AND cardNum = ? AND expDate = ?;");
 			deleteinfo.setNString(1, username);
 			deleteinfo.setNString(2, pmb.getCardName());
 			deleteinfo.setNString(3, pmb.getCardNo());
 			deleteinfo.setNString(4, pmb.getExpDate());
 			deleteinfo.execute();
 			
+			System.out.println(pmb.getCardName());
+			System.out.println(pmb.getCardNo());
+			System.out.println(pmb.getExpDate());
+
 			status = true;
-			
+
 			deleteinfo.close();
 			con.close();
 		} catch (Exception e) {
