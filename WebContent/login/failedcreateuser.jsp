@@ -44,6 +44,7 @@
 	</style>
 	<body>
 		<h1>Create User</h1>
+		<b class='error'>User could not be created. Username already exists. Please try again.</b>
 		<div class="login-info">
         	<form action="adduser.jsp" method="post">
 	        	<table style="width: 100%">

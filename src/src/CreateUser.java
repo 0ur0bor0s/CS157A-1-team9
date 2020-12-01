@@ -26,6 +26,19 @@ public class CreateUser {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Check if user is already in database
+			PreparedStatement check = con.prepareStatement("SELECT * FROM Users WHERE username = ?");
+			check.setNString(1, userBean.getUsername());
+			ResultSet checkResults = check.executeQuery();
+			
+			if (checkResults.next() == true) {
+				checkResults.close();
+				check.close();
+				con.close();
+				return false;
+			}
+			
+			checkResults.close();
+			check.close();
 			
 			// Query database for user
         	PreparedStatement search = con.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
@@ -56,6 +69,7 @@ public class CreateUser {
         		status = true;
         	}
         	searchResults.close();
+        	search.close();
         	con.close();
 			
 		} catch (Exception e) {

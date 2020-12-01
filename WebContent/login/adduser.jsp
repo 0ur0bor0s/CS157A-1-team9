@@ -9,7 +9,7 @@
 		System.out.println("User successfully created");
 		response.sendRedirect("../home.jsp");
 	} else {
-		System.out.println("User not created");
-		response.sendRedirect("createuser.jsp");
+		System.out.println("User could not be created. Username already exists.");
+		response.sendRedirect("failedcreateuser.jsp");
 	}
 %>

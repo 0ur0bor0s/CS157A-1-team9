@@ -1,8 +1,37 @@
 
+body {
+	background-color: #ffaff1;
+}
+
 h1 {
 	background-color: #BC76BA;
 }
 
 .error {
 	color: red;
+}
+
+/*
+====== About Description ==========================================================
+*/
+
+.about-desc {
+	border-radius: 20px;
+	margin: 50px auto;
+	border: 3px black;
+	background-color: #8F4FA0;
+	width: 50%;
+	padding: 10px 10px;
+}
+
+.about-desc h2 {
+	text-align: center;
+	color: white;
+	margin-top: 8px;
+}
+
+.about-desc p {
+	border: 3px green;
+	color: white;
+	padding: 10px 10px;
 }
