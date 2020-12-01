@@ -17,6 +17,10 @@
 	        			<td>Password</td>
 	        			<td><input type="password" name="password" size="20" placeholder="Password"/></td>
 	        		</tr>
+	        	     <tr>
+	        			<td>Admin Code (For admin use only)</td>
+	        			<td><input type="password" size="20" placeholder="Admin Code"/></td>
+	        		</tr>
 	        	</table>
 	        	<input type="submit" value="Submit"/>
         	</form>

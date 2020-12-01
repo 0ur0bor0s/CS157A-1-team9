@@ -148,58 +148,64 @@ public class InsertTicket {
 				insertEvent.setNString(10, dateFormat.format(tb.getDatetime()));
 				insertEvent.execute();
 				
-				// Iterate through each performer
-				for (String perfName : tb.getPerformers()) {
-					// Insert performer
-					PreparedStatement insertPerformer = con.prepareStatement("INSERT INTO Performers(name, performerType) " + 
-						"SELECT ?, ? " + 
-						"FROM dual " + 
-						"WHERE NOT EXISTS ( " + 
-						"SELECT * " + 
-						"FROM Performers WHERE name = ? AND performerType = ?)");
-					insertPerformer.setNString(1, perfName);
-					insertPerformer.setNString(2, tb.getPerformerType().name());
-					insertPerformer.setNString(3, perfName);
-					insertPerformer.setNString(4, tb.getPerformerType().name());
-					insertPerformer.execute();
-					
-					
-					// Insert performance
-					PreparedStatement insertPerformance = con.prepareStatement("INSERT INTO Performs(performId, eventId)\n" + 
-						"SELECT (SELECT performId FROM Performers WHERE name = ? AND performerType = ?), " + 
-						"	   (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-						"							INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-						"							WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
-						"FROM dual " + 
-						"WHERE NOT EXISTS ( " + 
-						"SELECT * " + 
-						"FROM Performs WHERE performId = (SELECT performId FROM Performers WHERE name = ? AND performerType = ?) " + 
-						"AND eventId = (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
-						"			   INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
-						"			   WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
-						")");
-					insertPerformance.setNString(1, perfName);
-					insertPerformance.setNString(2, tb.getPerformerType().name());
-					insertPerformance.setNString(3, tb.getEventName());
-					insertPerformance.setNString(4, dateFormat.format(tb.getDatetime()));
-					insertPerformance.setNString(5, tb.getVenueName());
-					insertPerformance.setNString(6, tb.getAddress());
-					insertPerformance.setInt(7, tb.getZipcode());
-					insertPerformance.setNString(8, perfName);
-					insertPerformance.setNString(9, tb.getPerformerType().name());
-					insertPerformance.setNString(10, tb.getEventName());
-					insertPerformance.setNString(11, dateFormat.format(tb.getDatetime()));
-					insertPerformance.setNString(12, tb.getVenueName());
-					insertPerformance.setNString(13, tb.getAddress());
-					insertPerformance.setInt(14, tb.getZipcode());
-					insertPerformance.execute();
-				}
+				
+				
 				
 				System.out.println("New event created.");
 			} else {
 				System.out.println("Event already exists.");
 			}
 			eventResult.close();
+			
+			
+			// Iterate through each performer
+			for (String perfName : tb.getPerformers()) {
+				System.out.println(perfName);
+				
+				// Insert performer
+				PreparedStatement insertPerformer = con.prepareStatement("INSERT INTO Performers(name, performerType) " + 
+					"SELECT ?, ? " + 
+					"FROM dual " + 
+					"WHERE NOT EXISTS ( " + 
+					"SELECT * " + 
+					"FROM Performers WHERE name = ? AND performerType = ?)");
+				insertPerformer.setNString(1, perfName);
+				insertPerformer.setNString(2, tb.getPerformerType().name());
+				insertPerformer.setNString(3, perfName);
+				insertPerformer.setNString(4, tb.getPerformerType().name());
+				insertPerformer.execute();
+				
+				
+				// Insert performance
+				PreparedStatement insertPerformance = con.prepareStatement("INSERT INTO Performs(performId, eventId)\n" + 
+					"SELECT (SELECT performId FROM Performers WHERE name = ? AND performerType = ?), " + 
+					"	   (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+					"							INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+					"							WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
+					"FROM dual " + 
+					"WHERE NOT EXISTS ( " + 
+					"SELECT * " + 
+					"FROM Performs WHERE performId = (SELECT performId FROM Performers WHERE name = ? AND performerType = ?) " + 
+					"AND eventId = (SELECT eventId FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId " + 
+					"			   INNER JOIN Addresses ON Venues.addressId = Addresses.addressId " + 
+					"			   WHERE Events.name = ? AND time = ? AND venueName = ? AND address = ? AND zipCode = ? LIMIT 1) " + 
+					")");
+				insertPerformance.setNString(1, perfName);
+				insertPerformance.setNString(2, tb.getPerformerType().name());
+				insertPerformance.setNString(3, tb.getEventName());
+				insertPerformance.setNString(4, dateFormat.format(tb.getDatetime()));
+				insertPerformance.setNString(5, tb.getVenueName());
+				insertPerformance.setNString(6, tb.getAddress());
+				insertPerformance.setInt(7, tb.getZipcode());
+				insertPerformance.setNString(8, perfName);
+				insertPerformance.setNString(9, tb.getPerformerType().name());
+				insertPerformance.setNString(10, tb.getEventName());
+				insertPerformance.setNString(11, dateFormat.format(tb.getDatetime()));
+				insertPerformance.setNString(12, tb.getVenueName());
+				insertPerformance.setNString(13, tb.getAddress());
+				insertPerformance.setInt(14, tb.getZipcode());
+				insertPerformance.execute();
+			}
 			
 			// List the desired number of tickets
 			for (int i=0; i<tb.getNumberTickets(); i++) {

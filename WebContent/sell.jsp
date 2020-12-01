@@ -9,31 +9,6 @@
 <html>
 	<head>
 		<title>CheaptTix Sell</title>
-		<script type='text/javascript'>
-			var performerCounter = 1;
-			var container = document.getElementById("container");
-			
-			// Function to add performer field
-			function addPerformer() {
-				var newCount = 1 + (++window.performerCounter);
-				container.appendChild(document.createTextNode("Performer " + newCount));
-				var input = document.createElement("input");
-				input.type = "text";
-				container.appendChild(input);
-				container.appendChild(document.createElement("br"));
-			}
-			
-			// Function to remove performer field
-			function removePerformer() {
-				if (window.performerCount > 1) {
-					container.removeChild(container.lastChild);
-					window.performerCounter--;
-				}
-			}
-			
-			document.getElementById("add-performer").addEventListener("click", addPerformer);
-			document.getElementById("remove-performer").addEventListener("click", removePerformer);
-		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -65,8 +40,8 @@
 	     	<label for="performer-name">Performers:</label><br>
 	     	<input type="text" id="performer-name" name="performer"><br>
 	     	<div id="container"></div>
-	     	<button id="add-performer">Add Performer</button>
-	     	<button id="remove-performer">Remove Performer</button><br>
+	     	<button type='button' id="add-performer">Add Performer</button>
+	     	<!--  <button type='button' id="remove-performer">Remove Performer</button>--><br>
 	     	<label for="performer-type">Category of Event</label><br>
 	     	<%
 	     		for (PerformerType p : PerformerType.values()) {
@@ -90,6 +65,35 @@
 	     </form>
 	     </div>
 	     </div>
+	     <script type='text/javascript'>
+			var performerCounter = 0;
+			var container = document.getElementById("container");
+			
+			// Function to add performer field
+			function addPerformer() {
+				if (window.performerCounter < 2) {
+					var newCount = 1 + (++window.performerCounter);
+					//container.appendChild(document.createTextNode(newCount + " "));
+					var input = document.createElement("input");
+					input.type = "text";
+					input.name = ("performer" + newCount);
+					input.id = ("perform" + newCount)
+					container.appendChild(input);
+					container.appendChild(document.createElement("br"));
+				}
+			}
+			
+			// Function to remove performer field
+			function removePerformer() {
+				if (window.performerCounter > 1) {
+					container.removeChild(container.lastChild());
+					window.performerCounter--;
+				}
+			}
+			
+			document.getElementById("add-performer").addEventListener("click", addPerformer);
+			document.getElementById("remove-performer").addEventListener("click", removePerformer);
+		</script>
 	</body>
 </html>
 	

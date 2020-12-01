@@ -27,6 +27,7 @@
 <jsp:useBean id="ticketBean" class="src.TicketBean"/>
 <jsp:setProperty property="*" name="ticketBean" />
 <%
+	java.util.ArrayList<String> performers = new java.util.ArrayList<String>();
 
 	// Set perform type
 	if (request.getParameter("ptype") != null) {
@@ -35,10 +36,23 @@
 
 	// Set performers
 	if (request.getParameter("performer") != null) {
-		java.util.ArrayList<String> performers = new java.util.ArrayList<String>();
 		performers.add(request.getParameter("performer"));
-		ticketBean.setPerformers(performers);
-	}
+		System.out.println("performer");
+	}	
+	
+	if (request.getParameter("performer1") != null) {
+		performers.add(request.getParameter("performer1"));
+		System.out.println("performer1");
+
+	}	
+	
+	if (request.getParameter("performer2") != null) {
+		performers.add(request.getParameter("performer2"));
+		System.out.println("performer2");
+	}	
+	
+	ticketBean.setPerformers(performers);
+
 
 	// Set date and time of event
 	if (request.getParameter("eventdate") != null && request.getParameter("eventtime") != null) {
