@@ -117,18 +117,18 @@ public class RetrieveEvents {
 					"INNER JOIN Performers ON Performs.performId = Performers.performId\n" + 
 					"WHERE Events.eventId NOT IN (SELECT Tickets.eventId FROM Buys\n" + 
 					"INNER JOIN Tickets ON Buys.ticketId = Tickets.ticketId )\n" + 
-					"AND (Events.name = ? OR venueName = ? \n" + 
-					"OR Events.name = ? OR address = ? \n" + 
-					"OR district = ? OR country = ? \n" + 
-					"OR zipCode = ? OR Performers.name = ?) GROUP BY Events.name, time, venueName, address, city, district, country, zipCode;");
-			eventquery.setNString(1, keyword);
-			eventquery.setNString(2, keyword);
-			eventquery.setNString(3, keyword);
-			eventquery.setNString(4, keyword);
-			eventquery.setNString(5, keyword);
-			eventquery.setNString(6, keyword);
-			eventquery.setNString(7, keyword);
-			eventquery.setNString(8, keyword);
+					"AND (Events.name LIKE ? OR venueName LIKE ? \n" + 
+					"OR Events.name LIKE ? OR address LIKE ? \n" + 
+					"OR district LIKE ? OR country LIKE ? \n" + 
+					"OR zipCode LIKE ? OR Performers.name LIKE ?) GROUP BY Events.name, time, venueName, address, city, district, country, zipCode;");
+			eventquery.setNString(1, "%" + keyword + "%");
+			eventquery.setNString(2, "%" + keyword + "%");
+			eventquery.setNString(3, "%" + keyword + "%");
+			eventquery.setNString(4, "%" + keyword + "%");
+			eventquery.setNString(5, "%" + keyword + "%");
+			eventquery.setNString(6, "%" + keyword + "%");
+			eventquery.setNString(7, "%" + keyword + "%");
+			eventquery.setNString(8, "%" + keyword + "%");
 			ResultSet eqr = eventquery.executeQuery();
 			
 			System.out.println("keyword: " + keyword);

@@ -45,7 +45,7 @@ public class RetrieveTickets {
 					"INNER JOIN Venues ON Events.venueId = Venues.venueId \n" + 
 					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
 					"WHERE  Tickets.ticketId NOT IN (SELECT ticketId FROM Buys)\n" + 
-					"AND Events.name = ? AND time = ? AND venueName = ? AND Address = ? AND zipCode = ? \n" + 
+					"AND Events.name LIKE ? AND time LIKE ? AND venueName LIKE ? AND Address LIKE ? AND zipCode LIKE ? \n" + 
 					"LIMIT 50;");
 			ticketQuery.setNString(1, eb.getEventName());
 			ticketQuery.setNString(2, dateFormat.format(eb.getDatetime()));
@@ -103,13 +103,13 @@ public class RetrieveTickets {
 					"					INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
 					"					INNER JOIN Performs ON Events.eventId = Performs.eventId \n" + 
 					"					INNER JOIN Performers ON Performs.performId = Performers.performId \n" + 
-					"					WHERE username = ? AND NOT EXISTS(SELECT * FROM Buys WHERE Buys.ticketId IN (SELECT ticketId \n" + 
+					"					WHERE username LIKE ? AND NOT EXISTS(SELECT * FROM Buys WHERE Buys.ticketId IN (SELECT ticketId \n" + 
 					"																											 FROM Lists \n" + 
 					"																											 INNER JOIN Users ON Lists.userId = Users.userId \n" + 
-					"					                                                                                         WHERE username = ?))\n" + 
+					"					                                                                                         WHERE username LIKE ?))\n" + 
 					"					GROUP BY Tickets.ticketId;");
-			ticketQuery.setNString(1, username);
-			ticketQuery.setNString(2, username);
+			ticketQuery.setNString(1, "%" + username + "%");
+			ticketQuery.setNString(2, "%" + username + "%");
 			ResultSet tr = ticketQuery.executeQuery();
 			
 			while (tr.next()) {
@@ -185,9 +185,9 @@ public class RetrieveTickets {
 					"					INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
 					"					INNER JOIN Performs ON Events.eventId = Performs.eventId \n" + 
 					"					INNER JOIN Performers ON Performs.performId = Performers.performId \n" + 
-					"					WHERE username = ?\n" + 
+					"					WHERE username LIKE ?\n" + 
 					"                    GROUP BY Tickets.ticketId;");
-			ticketQuery.setNString(1, username);
+			ticketQuery.setNString(1, "% " + username + "%");
 			ResultSet tr = ticketQuery.executeQuery();
 			
 			while (tr.next()) {
