@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="src.RetrieveEvents,src.RetrieveTickets, src.EventBean, src.TicketBean, java.util.ArrayList"  %>
+<%@ page import="src.RetrieveEvents,src.RetrieveTickets, src.EventBean, src.TicketBean, java.util.ArrayList, src.PerformerType"  %>
 <link href="css/home.css" rel="stylesheet" type="text/css">
 <%
 	// Make sure user is logged in to session
@@ -53,14 +53,22 @@
     		out.println("<div class=\"event-card\">");
     		out.println("<div class='price'><b>Price: $" + String.format("%.2f", t.getPrice()) + "</b></div>");
 			out.println("<div class='event-name'><h3>" + t.getEventName() + " at " + t.getVenueName() + "</h3></div>");
+			
 	  		out.println("<b>Performing:</b><br>");
 	  		ArrayList<String> performers = t.getPerformers();
 	  		for (String performer : performers) {
 	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 	  		}
+	  		
+	  		out.println("<br><b>Event Category:</b><br>");
+	  		ArrayList<PerformerType> perftypes = t.getPerformerTypes();
+	  		for (PerformerType ty : perftypes) {
+	  			out.println("<div>" + ty + "</div>");
+	  		}
+	  		
 	  		out.println("<br><b>Date:</b><br>");
 	  		out.println("<div class=\"time\">" + printFormat.format(t.getDatetime()) + "</div><br>");
-	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + "</div>");
+	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + " " + t.getZipcode() + "</div>");
       		out.println("<form method='post' action='change_price.jsp?ticketId=" + t.getTicketId() +"'>" +
       		     	"<input type='number' min='0' name='price' id='price' placeholder='25.00'>&nbsp;" +
       		     	"<input type='submit' value='Change Price'>" +
@@ -92,9 +100,16 @@
 	  		for (String performer : performers) {
 	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 	  		}
+	  		
+	  		out.println("<br><b>Event Category:</b><br>");
+	  		ArrayList<PerformerType> perftypes = t.getPerformerTypes();
+	  		for (PerformerType ty : perftypes) {
+	  			out.println("<div>" + ty + "</div>");
+	  		}
+	  		
 	  		out.println("<br><b>Date:</b><br>");
 	  		out.println("<div class=\"time\">" + printFormat.format(t.getDatetime()) + "</div><br>");
-	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + "</div>");
+	  		out.println("<div class=\"location\">" + t.getCity() + ", " + t.getDistrict() + " " + t.getCountry() + " " + t.getZipcode() + "</div>");
 	  		out.println("</div>");
     	}
     	out.println("</div>");
@@ -122,9 +137,16 @@
 	  		for (String performer : performers) {
 	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 	  		}
+	  		
+	  		out.println("<br><b>Event Category:</b><br>");
+	  		ArrayList<PerformerType> perftypes = e.getPerformerTypes();
+	  		for (PerformerType t : perftypes) {
+	  			out.println("<div>" + t + "</div>");
+	  		}
+	  		
 	  		out.println("<br><b>Date:</b><br>");
 	  		out.println("<div class=\"time\">" + printFormat.format(e.getDatetime()) + "</div><br>");
-	  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + "</div>");
+	  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + " " + e.getZipcode() + "</div>");
 	  		out.println("</div>");
 	  		out.println("</a>");
 	  	}

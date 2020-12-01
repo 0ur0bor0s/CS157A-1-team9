@@ -1,4 +1,4 @@
-<%@ page import="src.RetrieveEvents, src.EventBean, java.util.ArrayList" contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="src.RetrieveEvents, src.EventBean, java.util.ArrayList, src.PerformerType" contentType="text/html;charset=UTF-8" language="java" %>
 <link href="css/home.css" rel="stylesheet" type="text/css"> 
 <%
 	// Make sure user is logged in to session
@@ -45,9 +45,16 @@
 		  		for (String performer : performers) {
 		  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
 		  		}
+		  		
+		  		out.println("<br><b>Event Category:</b><br>");
+		  		ArrayList<PerformerType> perftypes = e.getPerformerTypes();
+		  		for (PerformerType t : perftypes) {
+		  			out.println("<div>" + t + "</div>");
+		  		}
+		  		
 		  		out.println("<br><b>Date:</b><br>");
 		  		out.println("<div class=\"time\">" + printFormat.format(e.getDatetime()) + "</div><br>");
-		  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + "</div>");
+		  		out.println("<div class=\"location\">" + e.getCity() + ", " + e.getDistrict() + " " + e.getCountry() + " " + e.getZipcode() + "</div>");
 		  		out.println("</div>");
 		  		out.println("</a>");
 		  	}

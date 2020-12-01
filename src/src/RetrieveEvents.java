@@ -35,7 +35,7 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs , GROUP_CONCAT(performerType) types\n" + 
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs , GROUP_CONCAT(DISTINCT performerType) types\n" + 
 					"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
 					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId \n" + 
 					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
@@ -109,7 +109,7 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs, GROUP_CONCAT(performerType) types\n" + 
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs, GROUP_CONCAT(DISTINCT performerType) types\n" + 
 					"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
 					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
 					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 

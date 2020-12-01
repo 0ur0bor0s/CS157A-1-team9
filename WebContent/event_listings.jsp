@@ -47,12 +47,12 @@
 		// Convert string of performers back into an ArrayList
 		String ps = request.getParameter("performers");
 		java.util.ArrayList<String> pl = new java.util.ArrayList<String>();
-		pl.addAll(java.util.Arrays.asList(ps.substring(1, ps.length() - 1).split(",")));
+		pl.addAll(java.util.Arrays.asList(ps.substring(1, ps.length() - 1).split(", ")));
 		eb.setPerformers(pl);
 		
 		String ts = request.getParameter("ptypes");
 		java.util.ArrayList<PerformerType> tl = new java.util.ArrayList<PerformerType>();
-		java.util.List<String> newlist = java.util.Arrays.asList(ts.substring(1, ts.length() - 1).split(","));
+		java.util.List<String> newlist = java.util.Arrays.asList(ts.substring(1, ts.length() - 1).split(", "));
 		for (String s : newlist) {
 			tl.add(PerformerType.valueOf(s));
 		}

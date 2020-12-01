@@ -55,6 +55,9 @@
 		 %>
 		 <h3>Registered Payment Methods:</h3>
 		 <%
+		 	if (cards.isEmpty()) {
+		 		out.println("<div>No cards are currently registered. Please register one below!</div><br>");
+		 	}
 		 	for (PaymentMethodBean c : cards) {
 		 		out.println("<form method='post' action='changeuser/delete_payment_method.jsp?name=" + c.getCardName() + "&cardNo=" + c.getCardNo() + "&expDate=" + c.getExpDate() + "'>");
 		 		out.println("<label for='payment-method'>" + "<b>" + c.getCardName() + "</b> " + c.getCardType() + " " + c.getCardNo() + " " + c.getExpDate() + "</label>");

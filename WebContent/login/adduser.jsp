@@ -7,7 +7,7 @@
 	
 	if (status) {
 		System.out.println("User successfully created");
-		response.sendRedirect("home.jsp");
+		response.sendRedirect("../home.jsp");
 	} else {
 		System.out.println("User not created");
 		response.sendRedirect("createuser.jsp");

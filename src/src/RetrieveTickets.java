@@ -93,7 +93,7 @@ public class RetrieveTickets {
     		DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 
-			PreparedStatement ticketQuery = con.prepareStatement("SELECT Tickets.ticketId, price, Events.name, time, venueName, address, zipCode, city, district, country, GROUP_CONCAT(Performers.name) perfs, GROUP_CONCAT(performerType) types\n" + 
+			PreparedStatement ticketQuery = con.prepareStatement("SELECT Tickets.ticketId, price, Events.name, time, venueName, address, zipCode, city, district, country, GROUP_CONCAT(Performers.name) perfs, GROUP_CONCAT(DISTINCT performerType) types\n" + 
 					"					FROM Tickets\n" + 
 					"					INNER JOIN Lists ON Tickets.ticketId = Lists.ticketId \n" + 
 					"					INNER JOIN Users ON Lists.userId = Users.userId\n" + 
