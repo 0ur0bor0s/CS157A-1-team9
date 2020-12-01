@@ -30,7 +30,7 @@
 	<h2>Performing: <%=
 		request.getParameter("performers")
 	%></h2>
-	<h3>Event category: <%= request.getParameter("ptype") %></h3>
+	<h3>Event categories: <%= request.getParameter("ptypes") %></h3>
 	<h3>Time: <%= request.getParameter("datetime") %></h3>
 	<%
 		// Recollect url information into EventBean
@@ -47,10 +47,18 @@
 		// Convert string of performers back into an ArrayList
 		String ps = request.getParameter("performers");
 		java.util.ArrayList<String> pl = new java.util.ArrayList<String>();
-		pl.addAll(java.util.Arrays.asList(ps.substring(1, ps.length() - 1).split(", ")));
+		pl.addAll(java.util.Arrays.asList(ps.substring(1, ps.length() - 1).split(",")));
 		eb.setPerformers(pl);
 		
-		eb.setPerformerType(PerformerType.valueOf(request.getParameter("ptype")));
+		String ts = request.getParameter("ptypes");
+		java.util.ArrayList<PerformerType> tl = new java.util.ArrayList<PerformerType>();
+		java.util.List<String> newlist = java.util.Arrays.asList(ts.substring(1, ts.length() - 1).split(","));
+		for (String s : newlist) {
+			tl.add(PerformerType.valueOf(s));
+		}
+		eb.setPerformerTypes(tl);
+		
+		//eb.setPerformerType(PerformerType.valueOf(request.getParameter("ptypes")));
 		eb.setAddress(request.getParameter("address"));
 		eb.setCity(request.getParameter("city"));
 		eb.setDistrict(request.getParameter("district"));
@@ -69,7 +77,7 @@
 			for (TicketBean tb : ticketlist) {
 		  		out.println("<a style='text-decoration:none; color:black' href='ticket_purchase.jsp?venueName=" + 
 		  				tb.getVenueName() + "&eventName=" + tb.getEventName() + "&datetime=" + dateFormat.format(tb.getDatetime()) + "&performers=" + tb.getPerformers() + 
-	  					"&ptype=" + tb.getPerformerType() + "&address=" + tb.getAddress() + "&city=" + tb.getCity() + "&district=" + tb.getDistrict() + 
+	  					"&ptypes=" + tb.getPerformerTypes() + "&address=" + tb.getAddress() + "&city=" + tb.getCity() + "&district=" + tb.getDistrict() + 
 	  					"&zipcode=" + tb.getZipcode() + "&country=" + tb.getCountry() + "&price=" + tb.getPrice() + "&ticketId=" + tb.getTicketId() + "'>");
 				out.println("<div class=\"event-card\">");
 				out.println("<div>$" + String.format("%.2f", tb.getPrice()) + "</div>");

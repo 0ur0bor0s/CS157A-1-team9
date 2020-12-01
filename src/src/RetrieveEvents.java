@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TimeZone;
 
 import configs.DatabaseProperties;
@@ -34,14 +35,14 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, Performers.name , performerType\n" + 
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs , GROUP_CONCAT(performerType) types\n" + 
 					"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
 					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId \n" + 
 					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
 					"INNER JOIN Performs ON Events.eventId = Performs.eventId \n" + 
 					"INNER JOIN Performers ON Performs.performId = Performers.performId \n" + 
 					"WHERE Events.eventId NOT IN (SELECT Tickets.eventId FROM Buys \n" + 
-					"INNER JOIN Tickets ON Buys.ticketId = Tickets.ticketId )" +
+					"INNER JOIN Tickets ON Buys.ticketId = Tickets.ticketId ) GROUP BY Events.name, time, venueName, address, city, district, country, zipCode " +
 					"LIMIT ?");
 			eventquery.setInt(1, querynum);
 			ResultSet eqr = eventquery.executeQuery();
@@ -59,10 +60,19 @@ public class RetrieveEvents {
 				
 				event.setDatetime(eqr.getTimestamp("time"));
 				event.setAddress(eqr.getString("address"));
-				ArrayList<String> performList = new ArrayList<String>();
-				performList.add(eqr.getString("Performers.name"));
-				event.setPerformerType(PerformerType.valueOf(eqr.getString("performerType")));
+				String CSV_perfs = eqr.getNString("perfs");
+				String[] perfArray = CSV_perfs.split(",");
+				ArrayList<String> performList = new ArrayList<String>(Arrays.asList(perfArray));
 				event.setPerformers(performList);
+				
+				String CSV_types = eqr.getNString("types");
+				String[] typeStrArray = CSV_types.split(",");
+				ArrayList<PerformerType> typeList = new ArrayList<PerformerType>();
+				for (String s : typeStrArray) {
+					typeList.add(PerformerType.valueOf(s));
+				}
+				event.setPerformerTypes(typeList);
+				
 				event.setCity(eqr.getString("city"));
 				event.setDistrict(eqr.getString("district"));
 				event.setCountry(eqr.getString("country"));
@@ -99,7 +109,7 @@ public class RetrieveEvents {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, Performers.name , performerType\n" + 
+			PreparedStatement eventquery = con.prepareStatement("SELECT Events.name, time, venueName, address, city, district, country, zipCode, GROUP_CONCAT(Performers.name) perfs, GROUP_CONCAT(performerType) types\n" + 
 					"FROM Events INNER JOIN Venues ON Events.venueId = Venues.venueId\n" + 
 					"INNER JOIN Addresses ON Venues.addressId = Addresses.addressId\n" + 
 					"INNER JOIN Cities ON Addresses.cityId = Cities.cityId\n" + 
@@ -110,7 +120,7 @@ public class RetrieveEvents {
 					"AND (Events.name = ? OR venueName = ? \n" + 
 					"OR Events.name = ? OR address = ? \n" + 
 					"OR district = ? OR country = ? \n" + 
-					"OR zipCode = ? OR Performers.name = ?);");
+					"OR zipCode = ? OR Performers.name = ?) GROUP BY Events.name, time, venueName, address, city, district, country, zipCode;");
 			eventquery.setNString(1, keyword);
 			eventquery.setNString(2, keyword);
 			eventquery.setNString(3, keyword);
@@ -136,10 +146,20 @@ public class RetrieveEvents {
 				
 				event.setDatetime(eqr.getTimestamp("time"));
 				event.setAddress(eqr.getString("address"));
-				ArrayList<String> performList = new ArrayList<String>();
-				performList.add(eqr.getString("Performers.name"));
-				event.setPerformerType(PerformerType.valueOf(eqr.getString("performerType")));
+				
+				String CSV_perfs = eqr.getNString("perfs");
+				String[] perfArray = CSV_perfs.split(",");
+				ArrayList<String> performList = new ArrayList<String>(Arrays.asList(perfArray));
 				event.setPerformers(performList);
+				
+				String CSV_types = eqr.getNString("types");
+				String[] typeStrArray = CSV_types.split(",");
+				ArrayList<PerformerType> typeList = new ArrayList<PerformerType>();
+				for (String s : typeStrArray) {
+					typeList.add(PerformerType.valueOf(s));
+				}
+				event.setPerformerTypes(typeList);
+				
 				event.setCity(eqr.getString("city"));
 				event.setDistrict(eqr.getString("district"));
 				event.setCountry(eqr.getString("country"));

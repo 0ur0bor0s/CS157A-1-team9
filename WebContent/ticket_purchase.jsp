@@ -37,7 +37,7 @@
 	  	if (!cards.isEmpty()) { // Select card
 	  		out.println("<form method='post' action='process_ticket_purchase.jsp?venueName=" + 
 	  				request.getParameter("venueName") + "&eventName=" + request.getParameter("eventName") + "&datetime=" + request.getParameter("datetime") + "&performers=" + request.getParameter("performers") + 
-  					"&ptype=" + request.getParameter("ptype") + "&address=" + request.getParameter("address") + "&city=" + request.getParameter("city") + "&district=" + request.getParameter("district") + 
+  					"&ptypes=" + request.getParameter("ptypes") + "&address=" + request.getParameter("address") + "&city=" + request.getParameter("city") + "&district=" + request.getParameter("district") + 
   					"&zipcode=" + request.getParameter("zipcode") + "&country=" + request.getParameter("country") + "&price=" + request.getParameter("price") + "&ticketId=" + request.getParameter("ticketId") + "'>");
 		  	out.println("<label for=\"payment-method\"><b>Payment Method:</b></label><br>");
 	  		for (PaymentMethodBean c : cards) {
@@ -45,7 +45,7 @@
 	  			out.println("<label for='payment-method'>" + "<b>" + c.getCardName() + "</b> " + c.getCardType() + " " + c.getCardNo() + " " + c.getExpDate() + "</label><br>");
 	  		}
 	  	} else { // If no cards exist, add new one
-	  		out.println("<h2>It looks like you haven't set up a payment method yet. Please add one unser the profile tab!</h2>");
+	  		out.println("<h2>It looks like you haven't set up a payment method yet. Please add one under the profile tab!</h2>");
 	  	}
 	  %>
 	  <input type='submit' value='Submit'>

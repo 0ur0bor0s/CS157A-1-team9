@@ -35,7 +35,7 @@
 		  	for (EventBean e : events) {
 		  		out.println("<a style='text-decoration:none; color:black' href='event_listings.jsp?venueName=" + 
 		  					e.getVenueName() + "&eventName=" + e.getEventName() + "&datetime=" + dateFormat.format(e.getDatetime()) + "&performers=" + e.getPerformers() + 
-		  					"&ptype=" + e.getPerformerType() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
+		  					"&ptypes=" + e.getPerformerTypes() + "&address=" + e.getAddress() + "&city=" + e.getCity() + "&district=" + e.getDistrict() + 
 		  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
 				out.println("<div class=\"event-card\">");
 		  		out.println("<div class=\"date\">" + e.getDatetime().getDate() + "</div>");

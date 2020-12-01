@@ -18,6 +18,7 @@ public class EventBean implements Serializable {
 	private java.util.Date datetime;
 	private ArrayList<String> performers;
 	private PerformerType ptype;
+	private ArrayList<PerformerType> ptypes;
 	private String address;
 	private String city;
 	private String district;
@@ -43,6 +44,10 @@ public class EventBean implements Serializable {
 	
 	public PerformerType getPerformerType() {
 		return ptype;
+	}
+	
+	public ArrayList<PerformerType> getPerformerTypes() {
+		return ptypes;
 	}
 	
 	public String getAddress() {
@@ -84,6 +89,10 @@ public class EventBean implements Serializable {
 	
 	public void setPerformerType(PerformerType ptype) {
 		this.ptype = ptype;
+	}
+	
+	public void setPerformerTypes(ArrayList<PerformerType> ptypes) {
+		this.ptypes = ptypes;
 	}
 	
 	public void setAddress(String address) {
