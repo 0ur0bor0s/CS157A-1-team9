@@ -28,7 +28,11 @@
 	<div class="header-group">
 	<h1><%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
 	<h2>Performing: <%=
-		request.getParameter("performers")
+		
+		request.getParameter("performers");
+		
+		
+		
 	%></h2>
 	<h3>Event categories: <%= request.getParameter("ptypes") %></h3>
 	<h3>Time: <%= request.getParameter("datetime") %></h3>
@@ -88,7 +92,6 @@
 			out.println("<h2>No tickets are currently being sold for this event.</h2>");
 		}
 		out.println("</div>");
-
 	%>
 </body>
 </html>

@@ -3,6 +3,8 @@
 	<name>CheapTix</name>
 	<comment></comment>
 	<projects>
+		<project>Servers</project>
+		<project>Test</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
