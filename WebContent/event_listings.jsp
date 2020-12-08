@@ -29,7 +29,7 @@
 	<h1><%= request.getParameter("eventName") %> at <%= request.getParameter("venueName") %></h1>
 	<h2>Performing: <%=
 		
-		request.getParameter("performers");
+		request.getParameter("performers")
 		
 		
 		

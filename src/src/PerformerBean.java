@@ -18,7 +18,7 @@ public class PerformerBean implements Serializable {
 	private PerformerType ptype;
 	private String about;
 	private ArrayList<String> eventNames;	// use EventBeans or create fields for all necessary event info?? -- if EventBeans, rest unnecessary v.
-	private ArrayList<String> eventTimes;
+	private ArrayList<java.util.Date> eventTimes;
 	private ArrayList<String> eventVenues;
 	
 	public PerformerBean(String name) {
@@ -41,7 +41,7 @@ public class PerformerBean implements Serializable {
 		return eventNames;
 	}
 	
-	public ArrayList<String> getEventTimes(){
+	public ArrayList<java.util.Date> getEventTimes(){
 		return eventTimes;
 	}
 	
@@ -57,15 +57,15 @@ public class PerformerBean implements Serializable {
 		this.ptype = ptype;
 	}
 	
-	public void addEvent(String eventName) {
-		this.eventNames.add(eventName);
+	public void addEvents(ArrayList<String> eventNames) {
+		this.eventNames = eventNames;
 	}
 	
-	public void addTime(String eventTime) {
-		this.eventTimes.add(eventTime);
+	public void addTimes(ArrayList<java.util.Date> eventTimes) {
+		this.eventTimes = eventTimes;
 	}
 	
-	public void addVenue(String eventVenue) {
-		this.eventVenues.add(eventVenue);
+	public void addVenues(ArrayList<String> eventVenues) {
+		this.eventVenues = eventVenues;
 	}
 }

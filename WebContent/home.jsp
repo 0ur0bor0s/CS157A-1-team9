@@ -57,7 +57,7 @@
 	  		out.println("<b>Performing:</b><br>");
 	  		ArrayList<String> performers = t.getPerformers();
 	  		for (String performer : performers) {
-	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp\">" + performer + "</a></div>");
+	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp?name=" + performer + "\">" + performer + "</a></div>");	// trying to pass "performer" as value to next page (about_performer.jsp)
 	  		}
 	  		
 	  		out.println("<br><b>Event Category:</b><br>");
@@ -98,7 +98,7 @@
 	  		out.println("<b>Performing:</b><br>");
 	  		ArrayList<String> performers = t.getPerformers();
 	  		for (String performer : performers) {
-	  	  		out.println("<div class=\"performer-name\">" + performer + "</div>");
+	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp?name=" + performer + "\">" + performer + "</a></div>");	// trying to pass "performer" as value to next page (about_performer.jsp)
 	  		}
 	  		
 	  		out.println("<br><b>Event Category:</b><br>");
@@ -135,7 +135,7 @@
 	  		out.println("<b>Performing:</b><br>");
 	  		ArrayList<String> performers = e.getPerformers();
 	  		for (String performer : performers) {
-	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp\">" + performer + "</a></div>");
+	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp?name=" + performer + "\">" + performer + "</a></div>");	// trying to pass "performer" as value to next page (about_performer.jsp)
 	  		}
 	  		
 	  		out.println("<br><b>Event Category:</b><br>");
