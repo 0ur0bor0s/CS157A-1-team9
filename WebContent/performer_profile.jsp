@@ -29,7 +29,7 @@
 		    </div>
 		 </div>
 		 <div class="card-group">
-			 <h1><%out.println(request.getParameter("name"));%></h1>	
+			 <h1><%out.println((String)session.getAttribute("name"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -37,38 +37,43 @@
 				 	  		
 		 	  		// Retrieve info about performer
 		 	  		RetrievePerformerInfo pInfo = new RetrievePerformerInfo();
-		 	  		PerformerBean pb = pInfo.retrievePerformerInfo(request.getParameter("name"));
+		 	  		PerformerBean pb = pInfo.retrievePerformerInfo((String)session.getAttribute("name"));
 		 	  	  %>
 	 	  	
 	 	  	  <h2>Performer Type</h2>
 	 	  	  	<% 
-		 	  	  	if (pb.getPerformerType() != null){
+	 	  	  		//out.println(session.getAttribute("performerBean").getPerformerType()); 
+	 	  	  		if (pb.getPerformerType() != null){
 		 	  	  		out.println(pb.getPerformerType());	
 	 	  	  		} else {
 	 	  	  			out.println("Performer type not specified");
 	 	  	  		}
- 	  	  		%>
+		 	  	%>
  		 	 <h2>About</h2>
 	 	  	  	<% 
+	 	  	  		//out.println(session.getAttribute("performerBean").getAbout()); 
 	 	  	  		if (pb.getAbout() != null){
-		 	  	  		out.println(pb.getAbout()); 
-		 	  	  	} else {
-		 	  	  		out.println("There is no information about this performer yet");
-		 	  	  	}
-		 	 	%>
+	 	  	  			out.println(pb.getAbout());	
+	 	  	  		} else {
+	 	  	  			out.println("There is no information about this performer yet.");
+	 	  	  		}
+	 	  	  	%>
 	 	  	  <h2>Upcoming Events</h2>
-	 	  	  	<br/>	 	  	  		
+	 	  	  	<br/>
 	 	  	  		<%	
 			 	  	  	if (pb.getEventsNames() != null && !pb.getEventsNames().isEmpty()){
-			 	  	  		System.out.println("listing events..");
 		 	  	  			for (int i=1; i<=pb.getEventsNames().size(); i++){
-		 	  	  				out.println("<div class=\"event-name\">" + pb.getEventsNames().get(i-1) + " at " + pb.getEventVenues().get(i-1) + " - " + printFormat.format(pb.getEventTimes().get(i-1)) + "</div>");
+		 	  	  			out.println("<div class=\"event-name\">" + pb.getEventsNames().get(i-1) + " at " + pb.getEventVenues().get(i-1) + " - " + printFormat.format(pb.getEventTimes().get(i-1)) + "</div>");
 		 	  	  			}
 			  	  		} else {
 			  	  			out.println("There are no upcoming events for this performer.");
 			  	  		}
 	 	  	  		%>
-		  </div>		 
+	 	  	  		
+		  </div>		
+		<%//**** THESE BUTTONS ARE NOT WORKING ****// %>
+		<button type="buttom" onclick="../EditPerformerInfo.jsp">Edit</button>
+		<button type="button" onclick="logout()">Log out</button> 
 	</body>
 
 </html>

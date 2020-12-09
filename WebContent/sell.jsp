@@ -49,7 +49,7 @@
 	     			out.println("<label for='" + p.name() + "'>" + p.name() + "</label><br>");
 	     		}
 	     	%>
-	     	<label for="venue-name">Venue name:</label><br>
+	     	<label for="veWnue-name">Venue name:</label><br>
 	     	<input type="text" id="venue-name" name="venueName"><br>
 	     	<label for="address">Address:</label><br>
 	     	<input type="text" id="address" name="address"><br>

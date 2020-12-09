@@ -1,4 +1,4 @@
-<%@ page import="src.Login" language="java" contentType="text/html;charset=UTF-8" %>
+<%@ page import="src.Login, src.PerformerBean" language="java" contentType="text/html;charset=UTF-8" %>
 <html>
 	<head>
 		<title>CheapTix Login</title>
@@ -85,12 +85,14 @@
 				session.setAttribute("adminCode", loginBean.getAdminCode()); // added
 				session.setAttribute("email", email);
 				session.setAttribute("phonenumber", phoneNumber);
-				
 				System.out.println("Successful login");
-				System.out.println("admincCOde attr set as: " + loginBean.getAdminCode());
+				System.out.println("admincCode attr set as: " + loginBean.getAdminCode());
 				try {
 					if(status.equals("10")){
-						response.sendRedirect("../EditPerformerInfo.jsp");	// need to pass performer attribs/values
+						PerformerBean pb = new PerformerBean(loginBean.getAdminCode());
+						session.setAttribute("name", pb.getName());
+						session.setAttribute("performerBean", pb);
+						response.sendRedirect("../performer_profile.jsp?name=" + pb.getName());	// need to pass performer attribs/values
 					} else {
 						response.sendRedirect("../home.jsp");
 					}
@@ -100,8 +102,8 @@
 				}
 			} else {
 				System.out.println("Unsuccessful login");
-				if (loginBean.getAdminCode() != null){
-					out.print("<b class=\"error\">Incorrect username, password, or admin code</b>");
+				if (loginBean.getAdminCode() != null){ 
+					out.print("<b class=\"error\">Incorrect username, password, or admin code</b>");	// or return results from add user to display which field was invalid
 				} else {
 					out.print("<b class=\"error\">Incorrect username or password</b>");
 				}

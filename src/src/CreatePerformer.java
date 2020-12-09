@@ -7,6 +7,10 @@ import java.sql.ResultSet;
 
 import configs.DatabaseProperties;
 
+/**
+ * create performer and add to db
+ * @author jalend
+ */
 public class CreatePerformer {
 	public String create(CreatePerformerBean performerBean) throws ClassNotFoundException {
 		String status = ""; // represents bit flags of |username_status|adminCode_status|performerName_status| 
@@ -28,9 +32,9 @@ public class CreatePerformer {
 			checkResults = check.executeQuery();
 			if (!checkResults.next()) {
 				System.out.println("username available");
-				status = "1";
+				status += "1";
 			} else {
-				status = "0";
+				status += "0";
 			}
 			
 			// check if adminCode is already in database
@@ -41,7 +45,7 @@ public class CreatePerformer {
 				System.out.println("admin code valid");
 				status += "1";
 			} else {
-				status = "0";
+				status += "0";
 			}
 			
 			// check if performer name is already in database
@@ -70,15 +74,24 @@ public class CreatePerformer {
 						    						+performerBean.getPassword()+"', '"
 						    						+performerBean.getEmail()+"', '"
 						    						+performerBean.getPhoneNumber()+"', '"
-						    						+performerBean.getAdminCode()+"')");
+						    						+performerBean.getAdminCode()+"')");    		          		
         		} else {
         			create = con.prepareStatement("INSERT INTO Users (username, password, email, adminCode) VALUES ('"
         											+performerBean.getUsername()+"', '"
         											+performerBean.getPassword()+"', '"
         											+performerBean.getEmail()+"', '"
         											+performerBean.getAdminCode()+"')");
-        		}
+          		}
+        		
         		create.executeUpdate();
+        		
+        		//**** THIS NEEDS TO BE EDITED TO UPDATE USERS.PERFORMERID TO PERFORMERS.PERFORMERID ****//
+        		create = con.prepareStatement("INSERT INTO Performers (name, performerType) VALUES ('"
+						+performerBean.getName()+"', '"
+						+performerBean.getPerformerType()+"')");
+        		create.executeUpdate();
+        		create = con.prepareStatement("UPDATE USERS SET perfromerId = Performers.performerId WHERE Performers.performerId = Peformers.performerId");
+        		
         		create.close();
             	con.close();
         		return status;

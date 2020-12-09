@@ -1,3 +1,4 @@
+<%@ page import="src.PerformerType" contentType="text/html;charset=UTF-8" language="java" %>
 <link href="../css/login.css" rel="stylesheet" type="text/css"> 
 <html>
 	<head>
@@ -72,17 +73,16 @@
 	        			<td><input type="text" name="name" size="20" placeholder="Mark Twain"/></td>
 	        		</tr>
 	        		<tr>
-	        			<td>Performer Type</td>
 	        			<td>
-	        				<select name="performerType" id="performerType">
-	        					<option value=""></option>
-	        					<c:foreach items="${performerType}" var="value">
-	        						<option>${value}</option>
-	        					<:foreach>
-	        					</>
-	        				</select>
-	        			</td>
-	        		</tr>
+			 	  	  	<label for="performer-type">Performer Type</label><br>
+					     	<%
+					     		for (PerformerType p : PerformerType.values()) {
+					     			out.println("<input type='radio' id='" + p.name() + "' name='performerType' value='" + p.name() + "'>");
+					     			out.println("<label for='" + p.name() + "'>" + p.name() + "</label><br>");
+					     		}
+					     	%>
+					     </td>
+					</tr>
 	        	</table>
 	        	<input type="submit" value="Submit"/>
         	</form>
