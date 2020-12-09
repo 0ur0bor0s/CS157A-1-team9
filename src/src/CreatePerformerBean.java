@@ -17,6 +17,8 @@ public class CreatePerformerBean extends CreateUserBean implements Serializable 
 	private String name;
 	private Integer adminCode;
 	private PerformerType ptype;
+	private Integer performerId;
+
 	
 	public String getName() {
 		return name;
@@ -24,6 +26,10 @@ public class CreatePerformerBean extends CreateUserBean implements Serializable 
 	
 	public PerformerType getPerformerType() {
 		return ptype;
+	}
+	
+	public Integer getPerformerId() {
+		return performerId;
 	}
 	
 	public Integer getAdminCode() {
@@ -40,5 +46,9 @@ public class CreatePerformerBean extends CreateUserBean implements Serializable 
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setPerformerId(Integer performerId) {
+		this.performerId= performerId;
 	}
 }

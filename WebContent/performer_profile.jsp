@@ -29,7 +29,7 @@
 		    </div>
 		 </div>
 		 <div class="card-group">
-			 <h1><%out.println((String)session.getAttribute("name"));%></h1>	
+			 <h1><%out.println((String)session.getAttribute("username"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -75,5 +75,4 @@
 		<button type="buttom" onclick="../EditPerformerInfo.jsp">Edit</button>
 		<button type="button" onclick="logout()">Log out</button> 
 	</body>
-
 </html>

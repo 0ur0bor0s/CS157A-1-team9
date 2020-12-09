@@ -10,6 +10,10 @@ import configs.DatabaseProperties;
 /**
  * create performer and add to db
  * @author jalend
+ * 
+ * Updated by Howie
+ * 
+ * have the performer ID set to the users table when creates a performer.
  */
 public class CreatePerformer {
 	public String create(CreatePerformerBean performerBean) throws ClassNotFoundException {
@@ -90,8 +94,8 @@ public class CreatePerformer {
 						+performerBean.getName()+"', '"
 						+performerBean.getPerformerType()+"')");
         		create.executeUpdate();
-        		create = con.prepareStatement("UPDATE USERS SET perfromerId = Performers.performerId WHERE Performers.performerId = Peformers.performerId");
-        		
+        		create = con.prepareStatement("UPDATE Users, Performers SET Users.performerId = Performers.performId WHERE Users.username = Performers.name");
+        		create.executeUpdate();
         		create.close();
             	con.close();
         		return status;

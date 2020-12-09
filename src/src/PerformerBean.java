@@ -16,6 +16,7 @@ public class PerformerBean extends CreateUserBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private PerformerType ptype;
+	private ArrayList<PerformerType> ptypes;
 	private String about;
 	private ArrayList<String> eventNames;	// use EventBeans or create fields for all necessary event info?? -- if EventBeans, rest unnecessary v.
 	private ArrayList<java.util.Date> eventTimes;
@@ -44,12 +45,16 @@ public class PerformerBean extends CreateUserBean implements Serializable {
 		return adminCode;
 	}
 	
-	public Integer performerId() {
+	public Integer getPerformerId() {
 		return performerId;
 	}
 	
 	public PerformerType getPerformerType() {
 		return ptype;
+	}
+	
+	public ArrayList<PerformerType> getPerformerTypes() {
+		return ptypes;
 	}
 	
 	public ArrayList<String> getEventsNames(){
@@ -78,6 +83,10 @@ public class PerformerBean extends CreateUserBean implements Serializable {
 	
 	public void setPerformerType(PerformerType ptype) {
 		this.ptype = ptype;
+	}
+	
+	public void setPerformerType(ArrayList<PerformerType> ptypes) {
+		this.ptypes = ptypes;
 	}
 	
 	public void addEvents(ArrayList<String> eventNames) {
