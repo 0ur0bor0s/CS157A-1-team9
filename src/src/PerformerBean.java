@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author jalend
  * 
  */
-public class PerformerBean implements Serializable {
+public class PerformerBean extends CreateUserBean implements Serializable {
 
 	/**
 	 * 
@@ -20,6 +20,9 @@ public class PerformerBean implements Serializable {
 	private ArrayList<String> eventNames;	// use EventBeans or create fields for all necessary event info?? -- if EventBeans, rest unnecessary v.
 	private ArrayList<java.util.Date> eventTimes;
 	private ArrayList<String> eventVenues;
+//	private Integer adminCode;
+//	private Integer performerId;
+	
 	
 	public PerformerBean(String name) {
 		this.name = name;
@@ -32,6 +35,10 @@ public class PerformerBean implements Serializable {
 	public String getAbout() {
 		return about;
 	}
+	
+//	public Integer getAdminCode() {
+//		return 
+//	}
 	
 	public PerformerType getPerformerType() {
 		return ptype;

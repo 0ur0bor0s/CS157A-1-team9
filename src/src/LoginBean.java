@@ -14,6 +14,7 @@ public class LoginBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
+	private Integer adminCode;
 	
 	public String getUsername() {
 		return username;
@@ -21,6 +22,14 @@ public class LoginBean implements Serializable {
 	
 	public String getPassword() {
 		return password;
+	}
+	
+	public Integer getAdminCode() {
+		return adminCode;
+	}
+	
+	public void setAdminCode(Integer adminCode) {
+		this.adminCode = adminCode;
 	}
 	
 	public void setUsername(String username) {

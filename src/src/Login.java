@@ -18,8 +18,8 @@ public class Login {
 	 * @return valid_status
 	 * @throws ClassNotFoundException
 	 */
-	public boolean validate(LoginBean loginBean) throws ClassNotFoundException {
-		boolean valid_status = false;	
+	public String validate(LoginBean loginBean) throws ClassNotFoundException {
+		String loginStatus = "00";	// bit flags for login type
 		
         Class.forName("com.mysql.cj.jdbc.Driver");
         
@@ -27,23 +27,43 @@ public class Login {
             // Connect to database
     		DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+        	ResultSet rs;
+			PreparedStatement ps;
+			System.out.println("adminCode: " + loginBean.getAdminCode());
+        	// Query database for performer user
+			if (loginBean.getAdminCode() != null) {
+				System.out.println("logging in as performer");
+				ps = con.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ? AND adminCode = ?");
+				ps.setNString(1, loginBean.getUsername());
+				ps.setNString(2, loginBean.getPassword());
+				ps.setInt(3, loginBean.getAdminCode());
+				rs = ps.executeQuery();
+				if(rs.next()) {
+					System.out.println("performer user found in db");
+					loginStatus = "10"; // performer status
+				}
+				
+			// Query database for regular user
+			} else {
+				System.out.println("logging in as user");
+	        	ps = con.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
+	        	ps.setNString(1, loginBean.getUsername());
+	        	ps.setNString(2, loginBean.getPassword());
+	        	rs = ps.executeQuery();
+	        	if (rs.next()) {
+	        		System.out.println("regular user found in db");
+	        		loginStatus = "01";	// regular status
+	        	} 
+			}
+        
+			ps.close();
+        	con.close();
         	
-        	// Query database for user
-        	PreparedStatement ps = con.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
-        	ps.setNString(1, loginBean.getUsername());
-        	ps.setNString(2, loginBean.getPassword());
-        	
-        	// Execute SQL query and success boolean will determine output
-        	ResultSet rs = ps.executeQuery();
-        	valid_status = rs.next();
-        	
-        	ps.close();
-        	con.close();	
         } catch (Exception e) {
         	System.out.println(e);
         }
         
-		return valid_status;
+		return loginStatus;
 	}
 	
 	

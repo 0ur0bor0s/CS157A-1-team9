@@ -18,7 +18,7 @@ import configs.DatabaseProperties;
 public class RetrievePerformerInfo {
 	
 	public PerformerBean retrievePerformerInfo(String performerName){
-		System.out.println(performerName);
+		
 		PerformerBean p = new PerformerBean(performerName);
 		
 		// Formatter for dates
@@ -60,28 +60,15 @@ public class RetrievePerformerInfo {
 				
 				// these events return successfully
 				String groupedEvents = pqr.getNString("events");
-				System.out.println(groupedEvents);
 				String[] eventsArray = groupedEvents.split(",");
 				ArrayList<String> events = new ArrayList<String>(Arrays.asList(eventsArray));
 				p.addEvents(events);
-//				for (String e: eventsArray) {
-//					System.out.println("adding: " + e);
-//					p.addEvent(e);
-//				}
-				System.out.println("all events added");
-				
-				// problems occurring begin here -- times and venues are not returned.
 
 				String groupedVenues = pqr.getString("venues");
-				System.out.println(groupedVenues);
 				String[] venuesArray = groupedVenues.split(",");
 				ArrayList<String> venues = new ArrayList<String>(Arrays.asList(venuesArray));
-//				for(String v: venuesArray) {
-//					p.addVenue(v);
-//				}
 				
 				String groupedTimes = pqr.getString("times");
-				System.out.println(groupedTimes);
 				String[] timesStringArray = groupedTimes.split(",");
 				ArrayList<java.util.Date> times = new ArrayList<java.util.Date>();
 				for(String t: timesStringArray) {

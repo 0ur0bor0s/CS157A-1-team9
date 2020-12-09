@@ -54,7 +54,7 @@
 	        			<td>Password<br> <input type="password" name="password" size="20" placeholder="Password"/></td>
 	        		</tr>
 	        	     <tr>
-	        			<td>Admin Code (For admin use only)<br> <input type="password" size="20" placeholder="Admin Code"/></td>
+	        			<td>Admin Code (For admin use only)<br> <input type="password" name="adminCode" size="20" placeholder="Admin Code"/></td>
 	        		</tr>
 	        	</table>
 	        	<input type="submit" value="Submit"/>
@@ -62,35 +62,49 @@
         	<form action="createuser.jsp" method="post">
 	        	<input type="submit" value="Create User" />
         	</form>
+        	<form action="createperformer.jsp" method="post">
+	        	<input type="submit" value="Create Performer" />
+        	</form>
     	</div>
 
         <jsp:useBean id="loginBean" class="src.LoginBean"/>
 		<jsp:setProperty property="*" name="loginBean" />
 		<%
 			Login log = new Login();
-			boolean status = log.validate(loginBean);
+			String status = log.validate(loginBean);
 			
 			String email = log.getEmail(loginBean.getUsername());
 			String phoneNumber = log.getNumber(loginBean.getUsername());
 			
-			if (status) {
-				
+			System.out.println(status);
+			if (!status.equals("00")) {
+		
 				// Store username and password to maintain login
 				session.setAttribute("username", loginBean.getUsername());
 				session.setAttribute("password", loginBean.getPassword());
+				session.setAttribute("adminCode", loginBean.getAdminCode()); // added
 				session.setAttribute("email", email);
 				session.setAttribute("phonenumber", phoneNumber);
 				
 				System.out.println("Successful login");
+				System.out.println("admincCOde attr set as: " + loginBean.getAdminCode());
 				try {
-					response.sendRedirect("../home.jsp");
+					if(status.equals("10")){
+						response.sendRedirect("../EditPerformerInfo.jsp");	// need to pass performer attribs/values
+					} else {
+						response.sendRedirect("../home.jsp");
+					}
 					return;
 				} catch (Exception e) {
 					System.out.println(e);
 				}
 			} else {
 				System.out.println("Unsuccessful login");
-				out.print("<b class=\"error\">Incorrect username or password</b>");
+				if (loginBean.getAdminCode() != null){
+					out.print("<b class=\"error\">Incorrect username, password, or admin code</b>");
+				} else {
+					out.print("<b class=\"error\">Incorrect username or password</b>");
+				}
 			}
 		%>
 		    	<div class="about-desc">

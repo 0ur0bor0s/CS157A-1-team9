@@ -54,13 +54,16 @@
 	        			<td>Password<br> <input type="password" name="password" size="20" placeholder="Password"/></td>
 	        		</tr>
 	        	     <tr>
-	        			<td>Admin Code (For admin use only)<br> <input type="password" size="20" placeholder="Admin Code"/></td>
+	        			<td>Admin Code (For admin use only)<br> <input type="password" name="adminCode" size="20" placeholder="Admin Code"/></td>
 	        		</tr>
 	        	</table>
 	        	<input type="submit" value="Submit"/>
         	</form>
         	<form action="createuser.jsp" method="post">
 	        	<input type="submit" value="Create User" />
+        	</form>
+        	<form action="createperformer.jsp" method="post">
+	        	<input type="submit" value="Create Performer" />
         	</form>
     	</div>
     	<div class="about-desc">
