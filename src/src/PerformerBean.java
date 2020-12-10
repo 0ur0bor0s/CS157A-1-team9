@@ -69,6 +69,10 @@ public class PerformerBean extends CreateUserBean implements Serializable {
 		return eventVenues;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public void setAdminCode(Integer adminCode) {
 		this.adminCode = adminCode;
 	}

@@ -1,4 +1,4 @@
-<%@ page import="src.Login, src.PerformerBean" language="java" contentType="text/html;charset=UTF-8" %>
+<%@ page import="src.Login, src.PerformerBean, src.RetrievePerformerInfo" language="java" contentType="text/html;charset=UTF-8" %>
 <html>
 	<head>
 		<title>CheapTix Login</title>
@@ -89,9 +89,10 @@
 				System.out.println("admincCode attr set as: " + loginBean.getAdminCode());
 				try {
 					if(status.equals("10")){
-						PerformerBean pb = new PerformerBean(loginBean.getAdminCode());
+						RetrievePerformerInfo pInfo = new RetrievePerformerInfo();
+			 	  		PerformerBean pb = pInfo.retrievePerformerName((Integer)loginBean.getAdminCode());
 						session.setAttribute("name", pb.getName());
-						session.setAttribute("performerBean", pb);
+						System.out.println("session's name: " + (String)session.getAttribute("name"));
 						response.sendRedirect("../performer_profile.jsp?name=" + pb.getName());	// need to pass performer attribs/values
 					} else {
 						response.sendRedirect("../home.jsp");

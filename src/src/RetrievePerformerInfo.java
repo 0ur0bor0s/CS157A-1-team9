@@ -85,7 +85,7 @@ public class RetrievePerformerInfo {
 	}
 	
 	
-	public PerformerBean retrievePerformerInfo(int adminCode){
+	public PerformerBean retrievePerformerName(Integer adminCode){
 		
 		PerformerBean p = new PerformerBean(adminCode);
 		
@@ -100,47 +100,15 @@ public class RetrievePerformerInfo {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
 			// Query database for event info
-			PreparedStatement performerquery = con.prepareStatement("SELECT Performers.name Performers.performerType, Performers.about, GROUP_CONCAT(Events.name) events, GROUP_CONCAT(Events.time) times, GROUP_CONCAT(Venues.venueName) venues\n" + 
-					"FROM Performers\n" + 
-					"INNER JOIN Performs ON Performers.performId = Performs.performId\n" +
-					"INNER JOIN Events ON Performs.eventId = Events.eventId\n" +
-					"INNER JOIN Venues ON Events.venueId = Venues.venueId\n" +
-					"WHERE Performers.adminCode = ?"); //+
+			PreparedStatement performerquery = con.prepareStatement("SELECT Performers.name\n" + 
+					"FROM Performers, Users\n" + 
+					"WHERE Performers.performId = Users.performerId AND Users.adminCode = ?"); //+
 					//"GROUP BY Events.name;");
 			performerquery.setInt(1, adminCode);
 			ResultSet pqr = performerquery.executeQuery();
 			
-			// Data in Event table
-			p.setPerformerType(PerformerType.valueOf((pqr.getString("Performers.performerType"))));
-			
-			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));	// necessary?
-			
-//			if (pqr.getString("Performers.about") == null) {
-//				p.setAbout("There is no information about this performer yet.");
-//			} else {
-			p.setAbout(pqr.getString("Performers.about"));
-//			}
-			
-			//****** TO GET EVENT INFO, PUT IN EVENT BEAN? OR JUST PUT AS SO: *******//
-			
-			// these events return successfully
-			String groupedEvents = pqr.getNString("events");
-			String[] eventsArray = groupedEvents.split(",");
-			ArrayList<String> events = new ArrayList<String>(Arrays.asList(eventsArray));
-			p.addEvents(events);
-
-			String groupedVenues = pqr.getNString("venues");
-			String[] venuesArray = groupedVenues.split(",");
-			ArrayList<String> venues = new ArrayList<String>(Arrays.asList(venuesArray));
-			p.addVenues(venues);
-			
-			String groupedTimes = pqr.getString("times");
-			String[] timesStringArray = groupedTimes.split(",");
-			ArrayList<java.util.Date> times = new ArrayList<java.util.Date>();
-			for(String t: timesStringArray) {
-				times.add(dateFormat.parse(t));
-			}
-			p.addTimes(times);
+			pqr.next();
+			p.setName(pqr.getString("Performers.name"));
 			
 			pqr.close();
 			con.close();

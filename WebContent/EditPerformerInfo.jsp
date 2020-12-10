@@ -16,20 +16,8 @@
 		<title>CheapTix Artist</title>
 	</head>
 	<body>
-		<div class="navbar">
-		    <a href="home.jsp">Home</a>
-		    <a href="sell.jsp">Sell</a>
-		    <a href="events.jsp">Events</a>
-		    <a href="profile.jsp">Profile</a>
-		    <div class="search-bar">
-		      	<form method="post" action="search.jsp">
-		      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
-	        		<button type="submit"><i class="fas fa-search"></i>Search</button>
-		        </form>
-		    </div>
-		 </div>
 		 <div class="card-group">
-			 <h1><%out.println((String)session.getAttribute("name"));%></h1>	
+			 <h1><%out.println(request.getParameter("name"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
