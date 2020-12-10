@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="src.Login, src.RetrievePerformerInfo, src.PerformerBean, java.util.ArrayList, src.PerformerType"%>
+<%@ page import="src.RetrievePerformerInfo, src.PerformerBean, java.util.ArrayList, src.PerformerType, src.Login" %>
     
 <link href="css/home.css" rel="stylesheet" type="text/css">
 
@@ -24,20 +24,8 @@
 		</script>
 	</head>
 	<body>
-		<div class="navbar">
-		    <a href="home.jsp">Home</a>
-		    <a href="sell.jsp">Sell</a>
-		    <a href="events.jsp">Events</a>
-		    <a href="profile.jsp">Profile</a>
-		    <div class="search-bar">
-		      	<form method="post" action="search.jsp">
-		      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
-	        		<button type="submit"><i class="fas fa-search"></i>Search</button>
-		        </form>
-		    </div>
-		 </div>
 		 <div class="card-group">
-			 <h1><%out.println((String)session.getAttribute("username"));%></h1>	
+			 <h1><%out.println((String)session.getAttribute("name"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -76,10 +64,10 @@
 			  	  		} else {
 			  	  			out.println("There are no upcoming events for this performer.");
 			  	  		}
-	 	  	  		%>
-	 	  	  <h3></h3>
-	 	  	  <button type = "button" onclick="goEdit()">Edit</button>
-			  <button type = "button" onclick="logout()">Log out</button>
-		  </div>			
+	 	  	  		%>	
+		 <h3></h3>	
+		<button type="button" onclick="goEdit()">Edit</button>
+		<button type="button" onclick="logout()">Log out</button> 
+		</div>
 	</body>
 </html>

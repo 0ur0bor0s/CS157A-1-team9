@@ -78,6 +78,7 @@
 	  		out.println("<input type='submit' value='Add Payment Method'></form><br><br>");
 	     %>
 	     <button type="button" onclick="logout()">Log out</button>
+	     	   
 	     </div>
 	     </div>
 	</body>

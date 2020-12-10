@@ -34,7 +34,7 @@
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				 	java.text.SimpleDateFormat printFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
-				 	  		
+				 	  	
 		 	  		// Retrieve info about performer
 		 	  		RetrievePerformerInfo pInfo = new RetrievePerformerInfo();
 		 	  		PerformerBean pb = pInfo.retrievePerformerInfo(request.getParameter("name"));

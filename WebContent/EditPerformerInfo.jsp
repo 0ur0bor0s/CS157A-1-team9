@@ -24,20 +24,8 @@
 		</script>
 	</head>
 	<body>
-		<div class="navbar">
-		    <a href="home.jsp">Home</a>
-		    <a href="sell.jsp">Sell</a>
-		    <a href="events.jsp">Events</a>
-		    <a href="profile.jsp">Profile</a>
-		    <div class="search-bar">
-		      	<form method="post" action="search.jsp">
-		      		<input type="text" id="keyword" name="keyword" placeholder="Search artists, events, etc . .">
-	        		<button type="submit"><i class="fas fa-search"></i>Search</button>
-		        </form>
-		    </div>
-		 </div>
 		 <div class="card-group">
-			 <h1><%out.println((String)session.getAttribute("username"));%></h1>	
+			 <h1><%out.println(request.getParameter("name"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -57,7 +45,11 @@
 			     		}
 			     	%>
  		 	 <h2>About</h2>
-					<input type='text' name='about' placeholder='Description' size = "20" height = "50"><br><br>
+	 	  	  	 
+	 	  		<form method='post' action='changeuser/change_performer.jsp'>
+				<textarea id="about" name="about" rows="4" cols="50" maxlength = "200" placeholder ="About description"></textarea><br>
+	 		       	<input type='submit' value='Save changes'>
+				</form>	
 	 	  	   
 	 	  	  <h2>Upcoming Events</h2>
 	 	  	  	<br/>
@@ -74,12 +66,10 @@
 			  	  		} else {
 			  	  			out.println("There are no upcoming events for this performer.");
 			  	  		}
-	 	  	  		%>
-			
-		 	<h3></h3>
-			<button type="button" onclick="goProf()">Save</button>
-			<button type="button" onclick="logout()">Log out</button> 
-		</div>	
+	 	  	  		%>		
+	 			<h3></h3> 
+					<button type="button" onclick="goProf()">Save</button>
+					<button type="button" onclick="logout()">Log out</button> 
+		</div>
 	</body>
-
 </html>
