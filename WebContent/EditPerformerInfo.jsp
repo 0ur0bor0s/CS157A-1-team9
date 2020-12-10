@@ -14,6 +14,14 @@
 <html>
 	<head>
 		<title>CheapTix Artist</title>
+		<script type="text/javascript">
+			function logout() {
+				window.location.href = "login/logout.jsp";
+			}
+			function goProf() {
+				window.location.href = "./performer_profile.jsp";
+			}
+		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -29,7 +37,7 @@
 		    </div>
 		 </div>
 		 <div class="card-group">
-			 <h1><%out.println((String)session.getAttribute("name"));%></h1>	
+			 <h1><%out.println((String)session.getAttribute("username"));%></h1>	
 				 <%
 				 	// Formatter for dates
 				 	java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -49,9 +57,8 @@
 			     		}
 			     	%>
  		 	 <h2>About</h2>
-	 	  	  	<% 
-	 	  	  		// text field box 
-	 	  	  	%>
+					<input type='text' name='about' placeholder='Description' size = "20" height = "50"><br><br>
+	 	  	   
 	 	  	  <h2>Upcoming Events</h2>
 	 	  	  	<br/>
 	 	  	  		<%	
@@ -68,10 +75,11 @@
 			  	  			out.println("There are no upcoming events for this performer.");
 			  	  		}
 	 	  	  		%>
-		  </div>		
-		<%//**** THESE BUTTONS ARE NOT WORKING ****// %>
-		<button type="button" onclick="../performer_profile.jsp">Save</button>
-		<button type="button" onclick="logout()">Log out</button> 
+			
+		 	<h3></h3>
+			<button type="button" onclick="goProf()">Save</button>
+			<button type="button" onclick="logout()">Log out</button> 
+		</div>	
 	</body>
 
 </html>

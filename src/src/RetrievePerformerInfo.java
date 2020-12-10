@@ -40,14 +40,22 @@ public class RetrievePerformerInfo {
 					"INNER JOIN Venues ON Events.venueId = Venues.venueId\n" +
 					"WHERE Performers.name = ?"); //+
 					//"GROUP BY Events.name;");
-			performerquery.setNString(1, performerName);
+			performerquery.setNString(1,p.getName());
 			ResultSet pqr = performerquery.executeQuery();
 			
 			pqr.next();
 
-			p.setPerformerType(PerformerType.valueOf((pqr.getString("Performers.performerType"))));
+			//p.setPerformerType(PerformerType.valueOf((pqr.getString("Performers.performerType"))));
 			
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));	// necessary?
+			
+			String CSV_types = pqr.getNString("types");
+			String[] typeStrArray = CSV_types.split(",");
+			ArrayList<PerformerType> typeList = new ArrayList<PerformerType>();
+			for (String s : typeStrArray) {
+				typeList.add(PerformerType.valueOf(s));
+			}
+			p.setPerformerType(typeList);
 						
 			p.setAbout(pqr.getString("Performers.about"));
 			System.out.println("about: " + p.getAbout());

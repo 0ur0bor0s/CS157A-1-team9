@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="src.RetrievePerformerInfo, src.PerformerBean, java.util.ArrayList, src.PerformerType" %>
+<%@ page import="src.Login, src.RetrievePerformerInfo, src.PerformerBean, java.util.ArrayList, src.PerformerType"%>
     
 <link href="css/home.css" rel="stylesheet" type="text/css">
 
@@ -14,6 +14,14 @@
 <html>
 	<head>
 		<title>CheapTix Artist</title>
+		<script type="text/javascript">
+			function logout() {
+				window.location.href = "login/logout.jsp";
+			}
+			function goEdit(){
+				window.location.href = "./EditPerformerInfo.jsp";
+			}
+		</script>
 	</head>
 	<body>
 		<div class="navbar">
@@ -69,10 +77,9 @@
 			  	  			out.println("There are no upcoming events for this performer.");
 			  	  		}
 	 	  	  		%>
-	 	  	  		
-		  </div>		
-		<%//**** THESE BUTTONS ARE NOT WORKING ****// %>
-		<button type="buttom" onclick="../EditPerformerInfo.jsp">Edit</button>
-		<button type="button" onclick="logout()">Log out</button> 
+	 	  	  <h3></h3>
+	 	  	  <button type = "button" onclick="goEdit()">Edit</button>
+			  <button type = "button" onclick="logout()">Log out</button>
+		  </div>			
 	</body>
 </html>
