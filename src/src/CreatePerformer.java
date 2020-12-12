@@ -71,43 +71,33 @@ public class CreatePerformer {
 				return status;
 			} else {
 				PreparedStatement create;
-//				System.out.println("phone #: " + performerBean.getPhoneNumber());
-//        		if (performerBean.getPhoneNumber() != "") {	// might need to include userId and performerId and make userId = adminCode = performerId
-//        			System.out.println("creating performer user with phone");
-        			create = con.prepareStatement("INSERT INTO Users (username, password, email, phoneNumber, adminCode) VALUES ('"
-            										+performerBean.getUsername()+"', '"
-						    						+performerBean.getPassword()+"', '"
-						    						+performerBean.getEmail()+"', '"
-						    						+performerBean.getPhoneNumber()+"', '"
-						    						+performerBean.getAdminCode()+"')");          		
-//        		} else {
-//        			System.out.println("creating performer user without phone");
-//        			create = con.prepareStatement("INSERT INTO Users (username, password, email, adminCode) VALUES ('"
-//        											+performerBean.getUsername()+"', '"
-//        											+performerBean.getPassword()+"', '"
-//        											+performerBean.getEmail()+"', '"
-//        											+performerBean.getAdminCode()+"')");
-//          		}
-        		create.executeUpdate();
-        		System.out.println("updating user.performerId");
-        		create = con.prepareStatement("UPDATE Users SET Users.performerId = Users.userId WHERE username = ?");	// update performerId
-        		create.setString(1, performerBean.getUsername());
-        		create.executeUpdate();
-        		
-        		//**** THIS NEEDS TO BE EDITED TO UPDATE USERS.PERFORMERID TO PERFORMERS.PERFORMERID ****//
+				
+				
         		System.out.println("inserting performer");
-        		create = con.prepareStatement("INSERT INTO Performers (performId, name, performerType) VALUES ("
-        				+"(SELECT userId FROM Users WHERE username = ?), '"
-						+performerBean.getName()+"', '"
-						+performerBean.getPerformerType()+"')");
-        		create.setString(1, performerBean.getUsername());
+        		create = con.prepareStatement("INSERT INTO Performers(name, performerType) " + 
+    					"SELECT ?, ? " + 
+    					"FROM dual " + 
+    					"WHERE NOT EXISTS ( " + 
+    					"SELECT * " + 
+    					"FROM Performers WHERE name = ? AND performerType = ?)");
+        		create.setString(1, performerBean.getName());
+        		create.setString(2, performerBean.getPerformerType().name());
+        		create.setString(3, performerBean.getName());
+        		create.setString(4, performerBean.getPerformerType().name());
         		create.executeUpdate();
-        		/*
-        		create = con.prepareStatement("UPDATE Users, Performers SET Users.performerId = Performers.performId WHERE Users.username = Performers.name");
+				
+				
+    			create = con.prepareStatement("INSERT INTO Users (username, password, email, phoneNumber, adminCode, performId) VALUES ('"
+        										+performerBean.getUsername()+"', '"
+					    						+performerBean.getPassword()+"', '"
+					    						+performerBean.getEmail()+"', '"
+					    						+performerBean.getPhoneNumber()+"', '"
+					    						+performerBean.getAdminCode()+"', (SELECT performId FROM Performers WHERE name = ? AND performerType = ?))");
+    			create.setNString(1, performerBean.getName());
+    			create.setNString(2, performerBean.getPerformerType().name());
+
         		create.executeUpdate();
-        		create.close();
-            	con.close();
-            	*/
+
 			}        	
 			
 		} catch (Exception e) {

@@ -102,8 +102,8 @@ public class RetrievePerformerInfo {
 			// Query database for event info
 			PreparedStatement performerquery = con.prepareStatement("SELECT Performers.name\n" + 
 					"FROM Performers, Users\n" + 
-					"WHERE Performers.performId = Users.performerId AND Users.adminCode = ?"); //+
-					//"GROUP BY Events.name;");
+					"WHERE Performers.performId = Users.performerId AND Users.adminCode = ?" +
+					"GROUP BY Events.name;");
 			performerquery.setInt(1, adminCode);
 			ResultSet pqr = performerquery.executeQuery();
 			

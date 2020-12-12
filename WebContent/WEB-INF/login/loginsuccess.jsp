@@ -28,8 +28,8 @@
 		<jsp:setProperty property="*" name="loginBean" />
 		<%
 			Login log = new Login();
-			boolean status = log.validate(loginBean);
-			if (status) {
+			String status = log.validate(loginBean);
+			if (status.equals("01")) {
 				System.out.println("Successful login");
 				
 				try {

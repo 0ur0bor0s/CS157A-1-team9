@@ -132,13 +132,13 @@
 	  					"&zipcode=" + e.getZipcode() + "&country=" + e.getCountry() + "'>");
 			out.println("<div class=\"event-card\">");
 			out.println("<div class='event-name'><h3>" + e.getEventName() + " at " + e.getVenueName() + "</h3></div>");
-	  		out.println("<b>Performing:</b><br>");
+	  		out.println("<b>Performing:</b><br><object>");
 	  		ArrayList<String> performers = e.getPerformers();
 	  		for (String performer : performers) {
 	  	  		out.println("<div class=\"performer-name\"><a href=\"about_performer.jsp?name=" + performer + "\">" + performer + "</a></div>");	// trying to pass "performer" as value to next page (about_performer.jsp)
 	  		}
 	  		
-	  		out.println("<br><b>Event Category:</b><br>");
+	  		out.println("</object><br><b>Event Category:</b><br>");
 	  		ArrayList<PerformerType> perftypes = e.getPerformerTypes();
 	  		for (PerformerType t : perftypes) {
 	  			out.println("<div>" + t + "</div>");
