@@ -356,4 +356,74 @@ public class Login {
 		return status;
 	}
 	
+	/**
+	 * Return the about from the perfomer
+	 * @param username
+	 * @return
+	 */
+	public String getAbout(String username) {
+		String about = "";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+	        
+	        // Connect to database
+    		DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+        	
+			PreparedStatement aboutquery = con.prepareStatement("SELECT about\n" + 
+					"FROM Performers\n" + 
+					"WHERE name = ?;");
+			aboutquery.setNString(1, username);
+			ResultSet er = aboutquery.executeQuery();
+			
+			while (er.next()) {
+				about = er.getNString("about");
+			}
+			
+			aboutquery.close();
+			con.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return about;
+	}
+	
+	
+	/**
+	 * Function to change the performer's about
+	 * @param uername
+	 * @param password
+	 * @return
+	 */
+	public boolean changeAbout(String username, String password) {
+		boolean status = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+	        
+	        // Connect to database
+    		DatabaseProperties dp = new DatabaseProperties();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
+        	
+			PreparedStatement updateabout= con.prepareStatement("UPDATE Performers\n" + 
+					"SET about = ?\n" + 
+					"WHERE name = ?");
+			updateabout.setNString(1, password);
+			updateabout.setNString(2, username);
+			updateabout.execute();
+			
+			status = true;
+			
+			updateabout.close();
+			con.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return status;
+	}
+	
+	
 }
