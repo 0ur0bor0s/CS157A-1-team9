@@ -292,7 +292,7 @@ public class InsertTicket {
 			PreparedStatement deleteTicket = con.prepareStatement("DELETE FROM Tickets WHERE ticketId = ?;\n");
 			deleteTicket.setInt(1, ticketId);
 			PreparedStatement safemodeoff = con.prepareStatement("SET SQL_SAFE_UPDATES = 0;");
-			PreparedStatement deleteBuys = con.prepareStatement("DELETE FROM Buys WHERE ticketId = ?;");
+			PreparedStatement deleteBuys = con.prepareStatement("DELETE FROM Lists WHERE ticketId = ?;");
 			deleteBuys.setInt(1, ticketId);
 			PreparedStatement safemodeon = con.prepareStatement("SET SQL_SAFE_UPDATES = 1;");
 			
@@ -323,12 +323,12 @@ public class InsertTicket {
 			DatabaseProperties dp = new DatabaseProperties();
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:"+dp.port+"/"+dp.name+"?serverTimezone=UTC", dp.username, dp.password);
 			
-			PreparedStatement deleteTicket = con.prepareStatement("UPDATE Tickets\n" + 
+			PreparedStatement updateTicket = con.prepareStatement("UPDATE Tickets\n" + 
 					"SET price = ?\n" + 
 					"WHERE ticketId = ?");
-			deleteTicket.setFloat(1, price);
-			deleteTicket.setInt(2, ticketId);
-			deleteTicket.execute();
+			updateTicket.setFloat(1, price);
+			updateTicket.setInt(2, ticketId);
+			updateTicket.execute();
 			
 		} catch (Exception e) {
 			System.err.println(e);
