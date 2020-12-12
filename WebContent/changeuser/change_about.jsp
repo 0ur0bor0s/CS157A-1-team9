@@ -14,9 +14,9 @@
 <body>
 <%
 	Login l = new Login();
-	l.changeAbout((String)session.getAttribute("username"), request.getParameter("about"));
-	session.setAttribute("about", l.getAbout((String)session.getAttribute("username")));
-	response.sendRedirect("../performer_profile.jsp");
+	l.changeAbout((String)session.getAttribute("name"), request.getParameter("about"));
+	session.setAttribute("about", l.getAbout((String)session.getAttribute("name")));
+	response.sendRedirect("../EditPerformerInfo.jsp");
 %>
 </body>
 </html>
